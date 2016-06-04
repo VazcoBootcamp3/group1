@@ -1,0 +1,30 @@
+/* CSS declarations go here */
+.container {
+  margin: auto;
+}
+
+h1 {
+  padding-top: 5px;
+  font-size: 24px;
+  text-align: center;
+  font-family: Impact, serif;
+}
+
+h3 {
+  font-size: 18px;
+  text-align: center;
+}
+
+::-webkit-input-placeholder {
+    color: #424242 !important;
+    opacity: 0.8;
+}
+
+.header-title {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.collection-item {
+  display: list-item;
+}

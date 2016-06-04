@@ -1,0 +1,36 @@
+
+import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
+import { check } from 'meteor/check';
+
+import App from '../ui/App.jsx';
+import { Users } from '../api/users';
+
+const CostItems = new Mongo.Collection('costItems');
+
+Meteor.methods({
+  'costItems.insert'(productsList, moneyOwned, contractor, debtor) {
+    check(productsList, String);
+    check(moneyOwned, Number);
+    check(contractor, String);
+    check(debtor, String);
+
+    var date = new Date();
+    var month = date.getUTCMonth() + 1;
+    var day = date.getUTCDate();
+    var year = date.getUTCFullYear();
+    var formatedDate = day + "/" + month + "/" + year;
+
+    CostItems.remove({});
+    CostItems.insert({
+      productsList,
+      moneyOwned,
+      contractor,
+      debtor,
+      isPayed: false,
+      createdAt: formatedDate,
+    });
+  },
+});
+
+export default CostItems
