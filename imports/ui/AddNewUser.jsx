@@ -28,13 +28,10 @@ export default class AddNewUser extends Component {
   render() {
     return (
       <div className="users card-panel center">
-        <header>
-          <h5>Dodaj nowego współlokatora:</h5>
-        </header>
         <div className="row">
         <form onSubmit={e => this.handleUserSubmit(e)}>
           <div className="input-field col s12">
-            <input placeholder="Ksywka Współlokatora" id="first_name" ref="nickInput" type="text" className="validate"/>
+          <input placeholder="Dodaj nowego współlokatora - podaj jego ksywkę" id="first_name" ref="nickInput" type="text" className="validate"/>
           </div>
           </form>
         </div>

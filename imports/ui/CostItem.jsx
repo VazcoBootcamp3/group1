@@ -1,21 +1,65 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 
+import { Users } from '../api/users';
+
 export default class Item extends Component {
 
+  isItemForAllFlatmates() {
+    return this.props.item.debtor === 'all';
+  }
+
+  setItemPayed(e) {
+    if (!this.props.item.isPayed) {
+      Meteor.call('costItems.setPayed', this.props.item._id, true);
+    }
+    else {
+      Meteor.call('costItems.setPayed', this.props.item._id, false);
+    }
+  }
+
+  renderItemText() {
+    if (this.isItemForAllFlatmates()) {
+
+    }
+  }
+
   render() {
+    const userCount = Users.find({}).count();
+    const totalMoney = this.props.item.moneyOwned;
+    const itemClassName = this.props.item.isPayed ? 'checked' : '';
+    let itemDebt = this.props.item.moneyOwned;
+    let itemSharedCost = itemDebt;
+    if (this.isItemForAllFlatmates()) {
+      itemSharedCost = (totalMoney / userCount).toFixed(2);
+      itemDebt = (totalMoney - itemSharedCost).toFixed(2);
+    }
+
     return (
-      <div className="text blue-text text-darken-2 collection-item">({this.props.item.createdAt}): {this.props.item.productsList} :
-      <span>Pieniądze do zwrotu dla: {this.props.item.contractor} </span>
-      <span>Pieniądze oddaje: {this.props.item.debtor} </span>
-      <span>Kwota: {this.props.item.moneyOwned} PLN</span>
-      </div>
-  );
+      <li key={this.props.item._id}  className="text teal-text text-darken-4">
+        <div className="collapsible-header">
+          <span className={itemClassName}>Zakupy z dnia: {this.props.item.createdAt},
+           {this.isItemForAllFlatmates() ? ' Płacą wszyscy po ' + itemSharedCost + ' PLN. ': ' Płaci: ' +
+            this.props.item.debtor + ': ' + itemSharedCost + ' PLN. '}<span>Do zwrotu dla: {this.props.item.contractor}</span>
+           </span>
+        </div>
+        <div className="collapsible-body white">
+            <p className={itemClassName}>({this.props.item.createdAt}):</p>
+            <p>Zakupy:[{this.props.item.productsList}]
+              {this.props.item.contractor}&nbsp;otrzyma:&nbsp;
+              {itemDebt}&nbsp;PLN&nbsp;{this.props.item.debtor}winien:{itemSharedCost} PLN</p>
+            <div className={itemClassName}>
+            <p><a onClick={e => this.setItemPayed(e)} className="waves-effect waves-teal teal darken-3  btn">Uregulowano</a>
+            </p>
+            </div>
+          </div>
+      </li>
+  )
   }
 };
 
 // Item.propTypes = {
-//   costItems: PropTypes.object.isRequired,
+//   item: PropTypes.object.isRequired,
 // };
 
 //TODO: if in comonent - dla all i pojedynczych - kwota albo cała albo dzielona

@@ -11,7 +11,7 @@ export default class AddNewItem extends Component {
       return debtor.toLowerCase();
     }
     else if (debtorUser) {
-      return debtorUser;
+      return debtorUser.nick;
     }
     else {
       return false;
@@ -60,20 +60,23 @@ export default class AddNewItem extends Component {
       <div className="new-cost-item-form">
         <form className="card-panel center col s6" onSubmit={e => this.handleNewItemSubmit(e)}>
           <div className="row">
-            <div className="input-field col s9">
+            <div className="input-field col s12">
               <input placeholder="Lista produktów" id="productsList" ref="productsListInput" type="text"/>
             </div>
-            <div className="input-field col s3">
+            <div className="input-field col s2">
               <input placeholder="Kwota zakupów" id="moneyOwned" ref="moneyInput" type="text"/>
             </div>
-            <div className="input-field col s6">
+            <div className="input-field col s3">
               <input placeholder="Kupujący" id="contractor" ref="contractorInput" type="text"/>
             </div>
-            <div className="input-field col s6">
-              <input placeholder="Dla kogo zakupy? Wpisz: all lub nick osoby" id="debtor" ref="debtorInput" type="text"/>
+            <div className="input-field col s4">
+              <input placeholder="Dla kogo? Wpisz: all lub nick osoby" id="debtor" ref="debtorInput" type="text"/>
+            </div>
+            <div className="col s3">
+              <button className="teal darken-4 btn waves-effect waves-light" type="submit" onClick={e => this.handleNewItemSubmit(e)}>Dodaj</button>
             </div>
           </div>
-          <button className="teal darken-4 btn waves-effect waves-light" type="submit" onClick={e => this.handleNewItemSubmit(e)}>Dodaj</button>
+
         </form>
       </div>
     )

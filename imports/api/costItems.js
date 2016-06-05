@@ -21,7 +21,6 @@ Meteor.methods({
     var year = date.getUTCFullYear();
     var formatedDate = day + "/" + month + "/" + year;
 
-    CostItems.remove({});
     CostItems.insert({
       productsList,
       moneyOwned,
@@ -30,6 +29,11 @@ Meteor.methods({
       isPayed: false,
       createdAt: formatedDate,
     });
+  },
+  'costItems.setPayed'(itemId, setPayed) {
+    check(itemId, String);
+    check(setPayed, Boolean);
+    CostItems.update(itemId, { $set: { isPayed: setPayed } });
   },
 });
 
