@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { Users } from '../api/users';
 
+
 export default class AddNewItem extends Component {
 
   getDebtor(debtor) {
@@ -43,6 +44,9 @@ export default class AddNewItem extends Component {
         if (!debtorOrDebtors) {
           Materialize.toast("Nie mamy takiego współlokatora - sprawdz listę na dole strony lub dodaj nowego :)", 2000);
         }
+        else if (contractor === debtor) {
+          Materialize.toast("Aplikacja nie słuzy do rozliczania się ze samym sobą", 2000);
+        }
         else {
           Meteor.call("costItems.insert", productsList, money, contractor, debtorOrDebtors);
           this.refs.productsListInput.value = '';
@@ -53,6 +57,18 @@ export default class AddNewItem extends Component {
         }
 
       }
+    }
+
+    getUserSelectValues(withAll) {
+      let options = [];
+      if (withAll) {
+        options.push({value: 'all', label: 'all'});
+      }
+      const users = Users.find({}).fetch();
+      for (var user in users) {
+        options.push({value: users[user].nick, label: users[user].nick})
+      }
+      return options;
     }
 
   render() {
@@ -76,6 +92,9 @@ export default class AddNewItem extends Component {
               <button className="teal darken-4 btn waves-effect waves-light" type="submit" onClick={e => this.handleNewItemSubmit(e)}>Dodaj</button>
             </div>
           </div>
+          <div className="col s12">
+
+      </div>
 
         </form>
       </div>

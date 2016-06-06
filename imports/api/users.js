@@ -31,8 +31,7 @@ Meteor.methods({
     }
     Users.remove({_id: userId});
   },
-
-
+  
   'users.updateBalance'(userId, balanceChange) {
     check(balanceChange, Number);
     var newBalance = Users.findOne({_id: userId}).balance + balanceChange;

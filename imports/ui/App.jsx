@@ -6,7 +6,6 @@ import { createContainer } from 'meteor/react-meteor-data';
 import CostItems from '../api/costItems';
 import { Users } from '../api/users';
 
-// import ShoppingSpree from './ShoppingSpree';
 import AddNewItem from './AddNewItem';
 import AddNewUser from './AddNewUser';
 import User from './User';

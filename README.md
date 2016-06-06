@@ -7,6 +7,13 @@ akordeon Report:
 ![alt tag](http://i65.tinypic.com/mbo57q.png)
 
 
+TODO:
+1) select form Flatmates in AddNewItem (using react-select?)
+2) add login to app: remove User and use instead accounts-ui i accounts-password (username instead of nick)
+3) + some task as private, "uregulowano" tylko dla własciciela (contractor)
+4) personal bilance of flatmate?
+5) walidation to forms other than Materialize.toast
+
 
 Zadanie 1:
 Napisz front-end aplikacji, która pomoże współlokatorom pilnować domowych rozliczeń.
@@ -28,7 +35,3 @@ przeglądarce. Cały interface użytkownika zostawiony jest do twojej własnej i
 
 Pamiętaj jednak, że twoja aplikacja będzie rozwijana w następnych zadaniach.
 Dlatego postaraj się o potencjalne możliwości rozwoju.
-
-UWAGA: Na Learning Circle, przy tym tasku, kliknij przycisk - start.
-Przekieruje Cię on do formularza tworzenia projektu. W nim wystarczy podać link do githuba
- kierujący do Waszego zadania. Reszta pól nie jest wymagana :)
