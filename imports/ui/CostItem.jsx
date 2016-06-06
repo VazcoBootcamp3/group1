@@ -44,10 +44,8 @@ export default class Item extends Component {
            </span>
         </div>
         <div className="collapsible-body white">
-            <p className={itemClassName}>({this.props.item.createdAt}):</p>
-            <p>Zakupy:[{this.props.item.productsList}]
-              {this.props.item.contractor}&nbsp;otrzyma:&nbsp;
-              {itemDebt}&nbsp;PLN&nbsp;{this.props.item.debtor}winien:{itemSharedCost} PLN</p>
+            <p className={itemClassName}>Zakupy: {this.props.item.productsList}</p>
+            <p className={itemClassName}>Cena całkowita: {this.props.item.moneyOwned} PLN.</p>
             <div className={itemClassName}>
             <p><a onClick={e => this.setItemPayed(e)} className="waves-effect waves-teal teal darken-3  btn">Uregulowano</a>
             </p>
@@ -61,5 +59,3 @@ export default class Item extends Component {
 // Item.propTypes = {
 //   item: PropTypes.object.isRequired,
 // };
-
-//TODO: if in comonent - dla all i pojedynczych - kwota albo cała albo dzielona

@@ -1,4 +1,12 @@
-Bootcamp
+Zadanie 1 na: http://www.bootcamp.vazco.eu/
+
+podstawowy layout:
+![alt tag](http://i68.tinypic.com/23idx6s.png)
+
+akordeon Report:
+![alt tag](http://i65.tinypic.com/mbo57q.png)
+
+
 
 Zadanie 1:
 Napisz front-end aplikacji, która pomoże współlokatorom pilnować domowych rozliczeń.
