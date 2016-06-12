@@ -3,13 +3,14 @@ import React from 'react';
 export default class extends React.Component {
     constructor (...args) {
         super(...args);
-        this.state = {
-            shopping_list: this.props.shopping_list,
-        }
-    }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState(nextProps);
+        if(!localStorage.getItem('shopping_list')) {
+            localStorage.setItem('shopping_list', JSON.stringify([]));
+        }
+
+        this.state = {
+            shopping_list: JSON.parse(localStorage.getItem('shopping_list')),
+        }
     }
 
     changeStatus (id) {
@@ -49,18 +50,17 @@ export default class extends React.Component {
                                     <td>{r.price}</td>
                                     <td>{r.products}</td>
                                     <td>
-                                    <input type="checkbox"
-                                    checked=
-                                        {((r)=>{
-                                            if(r) {
-                                                return "checked";
-                                            } else {
-                                                return "";
-                                            }
-                                        })(r.paid)}
-                                    onChange={this.changeStatus.bind(this, r.id)}
+                                        <input type="checkbox" className="filled-in"
+                                        checked={((r)=>{
+                                                if(r) {
+                                                    return "checked";
+                                                } else {
+                                                    return "";
+                                                }
+                                            })(r.paid)}
 
-                                    />
+                                        onChange={this.changeStatus.bind(this, r.id)}
+                                        />
                                     </td>
                                 </tr>;
                     }

@@ -1,72 +1,27 @@
 import React from 'react';
 
-import Report from '/components/Report';
+// TODO filter routes
 
-export default class extends React.Component {
-    constructor (...args) {
-        super(...args);
-        this.addShopping = this.addShopping.bind(this);
-        
-        // check if 'shopping_list' exist in localStorage
-        if(!localStorage.getItem('shopping_list')) {
-            localStorage.setItem('shopping_list', JSON.stringify([]));
-        }
-
-        this.state = {
-            shopping_list: JSON.parse(localStorage.getItem('shopping_list')),
-        }
-    
-    }
-
-    componentWillMount() {
-        this.setState({
-            shopping_list: JSON.parse(localStorage.getItem('shopping_list')),
-        });
-    }
-
-    addShopping () {
-        let shopping = {
-            id: new Date().getTime(),
-            buyer: this.refs.buyer.value,
-            indebted: this.refs.indebted.value,
-            products: this.refs.products.value,
-            price: this.refs.price.value,
-            paid: false,
-        };
-
-        let shopping_list = JSON.parse(localStorage.getItem('shopping_list'));
-        shopping_list.push(shopping);
-        localStorage.setItem('shopping_list', JSON.stringify(shopping_list));
-        this.setState({
-            shopping_list: shopping_list,
-        })
-    }
-
+export default class AppLayout extends React.Component {
     render () {
         return (
             <div>
-                <header>
-                    <h1>Domowe rozliczenia</h1>
-                </header> 
-                <section>
-                    <label>Kupujący</label>
-                    <input ref="buyer" />
-
-                    <label>Dłużny</label>
-                    <input ref="indebted" />
-
-                    <label>Kwota</label>
-                    <input type="number" step="any" ref="price" />
-
-                    <br />
-
-                    <label>Lista zakupów</label>
-                    <textarea ref="products" />
-
-                    <button onClick={this.addShopping}>Dodaj</button>
-                </section>
-                <Report shopping_list={this.state.shopping_list} />
-            </div>  
-        ); 
+                <nav>
+                    <div className="nav-wrapper">
+                        <a href="#" className="brand-logo">Domowe Rozliczenia</a>
+                        <ul id="nav-mobile" className="right hide-on-med-and-down">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/checkout">Dodaj zakupy</a></li>
+                            <li><a href="/report">Raport</a></li>
+                            <li><a href="/login">Logowanie</a></li>
+                            <li><a href="/register">Rejestracja</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <div className="container">
+                    {this.props.content}
+                </div>
+            </div>
+        );
     }
 }
