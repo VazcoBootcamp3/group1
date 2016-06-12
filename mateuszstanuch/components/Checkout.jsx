@@ -36,7 +36,7 @@ export default class extends React.Component {
                 shopping_list: shopping_list,
             })
 
-            FlowRouter.go("/report");
+            FlowRouter.go('Report');
         } else {
             Materialize.toast("Wypełnij wszystkie pola w formularzu", 4000);
         }
