@@ -6,12 +6,13 @@ import Login from '../components/Login';
 import Register from '../components/Register';
 import Checkout from '../components/Checkout';
 import Report from '../components/Report';
+import Hello from '../components/Hello';
 
 FlowRouter.route("/", {
     name: 'Home',
     action () {
         mount(AppLayout, {
-            content: ":)"
+            content: <Hello />
         });
     }
 });

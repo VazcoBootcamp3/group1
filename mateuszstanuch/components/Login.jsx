@@ -1,5 +1,4 @@
 import React from 'react/react';
-import { Accounts } from 'meteor/accounts-base';
 
 export default class extends React.Component {
     constructor (...args) {
