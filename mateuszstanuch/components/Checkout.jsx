@@ -64,7 +64,7 @@ export default class extends React.Component {
                         </div>
                     </div>
 
-                    <button className="waves-effect waves-light btn-large" type="submit">Dodaj</button>
+                    <button className="waves-effect waves-light btn-large">Dodaj</button>
                 </form>
 
             </div>

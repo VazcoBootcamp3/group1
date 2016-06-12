@@ -21,3 +21,5 @@ insecure                # Allow all DB writes from clients (for prototyping)
 static-html
 kadira:flow-router
 materialize:materialize
+accounts-base
+accounts-password
