@@ -1,10 +1,16 @@
+// main
 import React from 'react';
-import {Tabs, Tab} from 'material-ui/Tabs';
-import FontIcon from 'material-ui/FontIcon';
+import {createContainer} from 'meteor/react-meteor-data';
 
+// material-ui
+import FontIcon from 'material-ui/FontIcon';
+import {Tabs, Tab} from 'material-ui/Tabs';
+
+// components
 import ShoppingList from '/components/ShoppingList';
 import Flatmates from '/components/Flatmates';
 import Report from '/components/Report';
+
 
 const menuForMembers = [
   {label: 'SHOPPING LIST',  icon: 'shopping_cart',  component: <ShoppingList />},
@@ -19,12 +25,20 @@ const menuForGuest = [
   {label: 'REGISTER',       icon: 'group',          component: ''},
 ];
 
-export default class extends React.Component {
+export default class App extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        menu: this.props.currentUser ? menuForMembers : menuForGuest,
+      };
+    }
+
     render() {
         return(
           <div>
               <Tabs>
-                  {menuForMembers.map((item) => (
+                  {this.state.menu.map((item) => (
                     <Tab icon={<FontIcon className="material-icons">{item.icon}</FontIcon>} label={item.label}>{item.component}</Tab>                    
                   ))}
               </Tabs>
@@ -32,3 +46,12 @@ export default class extends React.Component {
         );
     }
 }
+
+App.propTypes = {
+};
+
+export default createContainer(() => {
+  return{
+    currentUser: 'michal',
+  };
+}, App);
