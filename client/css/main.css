@@ -1,0 +1,44 @@
+/* custom font icons */
+@import "font-icons/style.css";
+
+/* hightlight.js for syntax highlighting */
+@import "github.css";
+
+a {
+  color: #ff4081;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+body {
+  font-size: 15px;
+  line-height: 24px;
+}
+
+/* Used in our inline-styles.jsx as an example */
+.muidocs-checkbox-example {
+  border: 2px solid #FF9800;
+  background-color: #4CAF50;
+}
+
+.sl-add-btn {
+  float: right;
+  margin: 25px 50px 15px 7px;
+}
+
+.box {
+  width: 800px;
+  margin: 0 auto 0 auto;
+}
