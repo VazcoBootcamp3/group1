@@ -27,7 +27,9 @@ export default class extends React.Component {
                     Meteor.loginWithPassword(username, password, (error) => {
                        if(error) {
                            Materialize.toast("Wystąpił błąd wewnętrzny, spróbuj ponownie później.");
+                           return;
                        }
+                       FlowRouter.go('Home');
                     });
                 }
             });
