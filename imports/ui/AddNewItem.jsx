@@ -60,6 +60,11 @@ export default class AddNewItem extends Component {
     }
 
     getUserSelectValues(withAll) {
+      // Dużo wydajniej jest iterować po kursorze z mongo:
+      //
+      // const users = Users.find().map(function (user) {
+      //     return {value: user.nick, label: user.nick};
+      //     });
       let options = [];
       if (withAll) {
         options.push({value: 'all', label: 'all'});

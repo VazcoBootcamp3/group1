@@ -16,9 +16,10 @@ Meteor.methods({
     });
   },
   'users.remove'(userId) {
-
     check(userId, String);
-    var userBalance = Users.findOne({_id: userId}).balance;
+    
+    var user = Users.findOne({_id: userId});
+    var userBalance = user && user.balance;
     if (userBalance > 0.0) {
       Materialize.toast("Usuwany użytkownik powinien otrzymać zwrot: " + userBalance + " PLN!", 10000);
     }
@@ -31,10 +32,9 @@ Meteor.methods({
     }
     Users.remove({_id: userId});
   },
-  
+
   'users.updateBalance'(userId, balanceChange) {
     check(balanceChange, Number);
-    var newBalance = Users.findOne({_id: userId}).balance + balanceChange;
-    Users.update(userId, { $set: { balance: newBalance } });
+    Users.update(userId, { $inc: { balance: balanceChange } });
   },
 });
