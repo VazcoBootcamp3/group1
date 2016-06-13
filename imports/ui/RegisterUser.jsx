@@ -21,14 +21,14 @@ export default class RegisterUser extends Component {
           balance: 0
         }
       }
-      Accounts.createUser(accountInfo, function(err) {
+      Accounts.createUser(accountInfo, (err) => {
         if (err) {
-          Materialize.toast("Nie udało się utworzyć konta uzytkownika", 4000);
+          Materialize.toast(err.reason, 4000);
         }
         else {
-          Meteor.loginWithPassword(username, password, function(err) {
+          Meteor.loginWithPassword(username, password, (err) => {
             if (err) {
-              Materialize.toast("Logowanie nie powiodło się!", 4000);
+              Materialize.toast(err.reason, 4000);
             }
             else {
               this.context.router.push('/');
@@ -51,7 +51,7 @@ export default class RegisterUser extends Component {
   render() {
     return (
       <div className="row">
-				<h4 className="text-center center">Register Account</h4>
+				<h4 className="text-center center">Rejestracja uzytkownika</h4>
 				<form onSubmit={e => this.onSubmit(e)} className="col offset-s4 s4">
 					<div className="row">
 						<div className="input-field col s12">
@@ -73,8 +73,8 @@ export default class RegisterUser extends Component {
 							<input placeholder="Twoja grupa" id="group" ref="groupInput" type="text" className="validate white" />
 						</div>
 					</div>
-					<div className="row">
-						<button className="teal darken-4 waves-effect waves-light btn btn-block">Submit</button>
+					<div className="row center">
+						<button className="teal darken-4 waves-effect waves-light btn btn-block">Zarejestruj się</button>
 					</div>
 				</form>
 			</div>
