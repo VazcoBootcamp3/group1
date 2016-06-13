@@ -4,39 +4,29 @@ export default class extends React.Component {
     constructor (...args) {
         super(...args);
         this.onSubmit = this.onSubmit.bind(this);
-        
-        // check if 'shopping_list' exist in localStorage
-        if(!localStorage.getItem('shopping_list')) {
-            localStorage.setItem('shopping_list', JSON.stringify([]));
-        }
-
-        this.state = {
-            shopping_list: JSON.parse(localStorage.getItem('shopping_list')),
-        }
-    
     }
 
     onSubmit (e) {
         e.preventDefault();
 
         let shopping = {
-            id: new Date().getTime(),
             buyer: this.refs.buyer.value,
+            isBuyerGroup: false,
             indebted: this.refs.indebted.value,
+            isIndebtedGroup: false,
             products: this.refs.products.value,
             price: this.refs.price.value,
             paid: false,
         };
 
         if(shopping.buyer !== "" && shopping.indebted !== "" && shopping.products !== "" && shopping.price !== "" ) {
-            let shopping_list = JSON.parse(localStorage.getItem('shopping_list'));
-            shopping_list.push(shopping);
-            localStorage.setItem('shopping_list', JSON.stringify(shopping_list));
-            this.setState({
-                shopping_list: shopping_list,
-            })
-
-            FlowRouter.go('Report');
+            Meteor.call('checkout.create', shopping, (err, res) => {
+                if (err) {
+                    Materialize.toast(err, 4000);
+                } else {
+                    FlowRouter.go('Report');
+                }
+            });
         } else {
             Materialize.toast("Wypełnij wszystkie pola w formularzu", 4000);
         }

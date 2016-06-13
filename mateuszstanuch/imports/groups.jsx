@@ -1,5 +1,3 @@
-import { Mongo } from 'meteor/mongo';
-
 const GroupsList = new UniCollection('groups');
 
 GroupsList.setSchema(new SimpleSchema({
