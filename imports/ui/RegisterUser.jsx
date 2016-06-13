@@ -70,7 +70,7 @@ export default class RegisterUser extends Component {
 					</div>
           <div className="row">
 						<div className="input-field col s12">
-							<input placeholder="Twoja grupa" id="group" ref="groupInput" type="text" className="validate white" />
+							<input placeholder="Twoja grupa (np. adres mieszkania)" id="group" ref="groupInput" type="text" className="validate white" />
 						</div>
 					</div>
 					<div className="row center">

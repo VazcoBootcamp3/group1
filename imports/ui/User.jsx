@@ -5,7 +5,7 @@ export default class User extends Component {
 
   render() {
     return (
-        <div className="chip">{this.props.user.nick}</div>
+        <div className="chip">{this.props.user.username}</div>
       )
 
   }

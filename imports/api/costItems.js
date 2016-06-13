@@ -9,10 +9,9 @@ import { FlatMates } from '../api/users';
 const CostItems = new Mongo.Collection('costItems');
 
 Meteor.methods({
-  'costItems.insert'(productsList, moneyOwned, contractor, debtor) {
+  'costItems.insert'(productsList, moneyOwned, debtor) {
     check(productsList, String);
     check(moneyOwned, Number);
-    check(contractor, String);
     check(debtor, String);
 
     var date = new Date();
@@ -24,7 +23,8 @@ Meteor.methods({
     CostItems.insert({
       productsList,
       moneyOwned,
-      contractor,
+      contractor: Meteor.user().username,
+      group: Meteor.user().profile.group,
       debtor,
       isPayed: false,
       createdAt: formatedDate,
@@ -33,7 +33,12 @@ Meteor.methods({
   'costItems.setPayed'(itemId, setPayed) {
     check(itemId, String);
     check(setPayed, Boolean);
-    CostItems.update(itemId, { $set: { isPayed: setPayed } });
+    if (Meteor.user().username === this.contractor) {
+      CostItems.update(itemId, { $set: { isPayed: setPayed } });
+    }
+    else {
+      Materialize.toast("Tylko ten który zapłacił za zakupy może zaznaczyć task jako zapłacony :)", 4000);
+    }
   },
 });
 

@@ -25,7 +25,7 @@ export default class Item extends Component {
   }
 
   render() {
-    const userCount = FlatMates.find({}).count();
+    const userCount = Meteor.users.find({}).count();
     const totalMoney = this.props.item.moneyOwned;
     const itemClassName = this.props.item.isPayed ? 'checked' : '';
     let itemDebt = this.props.item.moneyOwned;

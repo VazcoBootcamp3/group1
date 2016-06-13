@@ -17,22 +17,33 @@ class App extends Component {
 
   constructor(...args) {
       super(...args);
-
       this.state = {
         hidePayedItems: true,
       };
     }
 
   renderCostItems() {
-    let filteredItems = this.props.costItems;
-    if (this.state.hidePayedItems) {
-      filteredItems = filteredItems.filter(item => !item.isPayed);
+    const user =  Meteor.user();
+    if (user) {
+      const loggedUserGroup = user.profile.group;
+      let filteredItems = this.props.costItems;
+      filteredItems = filteredItems.filter(item => item.group !== this.loggedUserGroup);
+      if (this.state.hidePayedItems) {
+        filteredItems = filteredItems.filter(item => !item.isPayed);
+      }
+      return filteredItems.map((item) => (<CostItem key={item._id} item={item} />));
     }
-    return filteredItems.map((item) => (<CostItem key={item._id} item={item} />));
   }
 
   renderUsers() {
     return this.props.users.map((user) => (<User key={user._id} user={user} />));
+  }
+
+  renderInfoForAnonim() {
+    if (!Meteor.user()) {
+      return <div className="card-panel"><h3 className="red-text text-darken-2">Aby korzystać z aplikacji zaloguj się lub zarejestruj,
+       jeśli nie masz jeszcze u nas konta.</h3></div>;
+    }
   }
 
   handleListToggle(e) {
@@ -50,30 +61,22 @@ class App extends Component {
 
   render() {
     return (
+
       <div className="container">
-        <Header />
-        <header className="header-title card-panel">
-        <h1><img height="70" width="70"
-        src="https://api.icons8.com/download/16e39063cf7f72a497ae57d67086817378c225d4/Android_L/PNG/256/Very_Basic/home-256.png" />
-        Paweł i Gaweł w jednym stali domu...</h1>
-        <h3>... czyli aplikacja ułatwiająca rozliczanie kosztów mieszkania razem :)</h3>
-        </header>
-
-        <AddNewItem />
-        <div className="card-panel">
+      <Header />
+      <AddNewItem />
+      <div className="card-panel">
         <button className="btn report-toggle teal darken-4 waves-effect waves-light"
-         onClick={e => this.handleListToggle(e)}>Raport</button>
-         <button className="btn hide-payed teal darken-4 waves-effect waves-light right"
-          onClick={e => this.handlePayedItemsToggle(e)}>Wszystkie</button>
-        </div>
-        <ul className="items-list collapsible" data-collapsible="accordion">
+        onClick={e => this.handleListToggle(e)}>Raport</button>
+        <button className="btn hide-payed teal darken-4 waves-effect waves-light right"
+        onClick={e => this.handlePayedItemsToggle(e)}>Wszystkie</button>
+      </div>
+      <ul className="items-list collapsible" data-collapsible="accordion">
           {this.renderCostItems()}
-        </ul>
-        <AddNewUser users={this.props.users} />
-
-        <div className="card-panel"><strong>Współlokatorzy: </strong>{this.renderUsers()}</div>
-        </div>
-    )
+      </ul>
+      <div className="card-panel"><strong>Współlokatorzy: </strong>{this.renderUsers()}</div>
+    </div>
+  )
   }
 }
 
@@ -83,9 +86,15 @@ App.propTypes = {
   users: PropTypes.array.isRequired,
 };
 
+Meteor.users.deny({
+  update: function() {
+    return true;
+  }
+});
+
 export default createContainer(() => {
   return {
     costItems: CostItems.find({}, {createdAt: -1}).fetch(),
-    users: FlatMates.find({}).fetch(),
+    users: Meteor.users.find({}).fetch(),
   };
 }, App);

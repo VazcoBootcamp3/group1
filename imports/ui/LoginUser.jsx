@@ -49,3 +49,7 @@ render() {
 }
 
 }
+
+LoginUser.contextTypes = {
+     router: React.PropTypes.object.isRequired
+}
