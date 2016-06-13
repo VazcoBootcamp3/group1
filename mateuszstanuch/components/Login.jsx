@@ -13,11 +13,7 @@ export default class extends React.Component {
         let password = this.refs.password.value;
 
         if(password !== '' && username != '') {
-            let accountInfo = {
-                username: username,
-                password: password
-            }
-
+            
             Meteor.loginWithPassword(username, password, (error) => {
                 if(error) {
                     Materialize.toast(error.reason);

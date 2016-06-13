@@ -1,7 +1,7 @@
 accounts-base@1.2.7
 accounts-password@1.1.8
+aldeed:simple-schema@1.5.3
 allow-deny@1.0.4
-autopublish@1.0.7
 autoupdate@1.2.9
 babel-compiler@6.6.4
 babel-runtime@0.1.8
@@ -41,6 +41,7 @@ livedata@1.0.18
 localstorage@1.0.9
 logging@1.0.12
 materialize:materialize@0.97.5
+mdg:validation-error@0.2.0
 meteor@1.1.14
 meteor-base@1.0.4
 minifier-css@1.1.11
@@ -76,6 +77,8 @@ templating-tools@1.0.4
 tracker@1.0.13
 ui@1.0.11
 underscore@1.0.8
+universe:collection@2.3.9
+universe:utilities@2.3.2
 url@1.0.9
 webapp@1.2.8
 webapp-hashing@1.0.9

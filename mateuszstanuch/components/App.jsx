@@ -31,6 +31,7 @@ export default class AppLayout extends React.Component {
                             <li><a href={FlowRouter.path('Home')}>Home</a></li>
                             <li><a href={FlowRouter.path('Checkout')}>Dodaj zakupy</a></li>
                             <li><a href={FlowRouter.path('Report')}>Raport</a></li>
+                            <li><a href={FlowRouter.path('Group')}>Grupy</a></li>
                             <li><a href={FlowRouter.path('Login')}>Logowanie</a></li>
                             <li><a href={FlowRouter.path('Register')}>Rejestracja</a></li>
                             <li><a onClick={this.logout} href="#">Wyloguj</a></li>

@@ -7,6 +7,7 @@ import Register from '../components/Register';
 import Checkout from '../components/Checkout';
 import Report from '../components/Report';
 import Hello from '../components/Hello';
+import Group from '../components/Group';
 
 FlowRouter.route("/", {
     name: 'Home',
@@ -31,6 +32,15 @@ FlowRouter.route("/register", {
     action () {
         mount(AppLayout, {
             content: <Register />
+        });
+    }
+});
+
+FlowRouter.route("/group", {
+    name: 'Group',
+    action () {
+        mount(AppLayout, {
+            content: <Group />
         });
     }
 });
