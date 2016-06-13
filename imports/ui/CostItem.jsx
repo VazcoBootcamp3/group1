@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 
-import { Users } from '../api/users';
+import { FlatMates } from '../api/users';
 
 export default class Item extends Component {
 
@@ -25,7 +25,7 @@ export default class Item extends Component {
   }
 
   render() {
-    const userCount = Users.find({}).count();
+    const userCount = FlatMates.find({}).count();
     const totalMoney = this.props.item.moneyOwned;
     const itemClassName = this.props.item.isPayed ? 'checked' : '';
     let itemDebt = this.props.item.moneyOwned;

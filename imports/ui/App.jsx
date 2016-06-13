@@ -4,12 +4,13 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import CostItems from '../api/costItems';
-import { Users } from '../api/users';
+import { FlatMates } from '../api/users';
 
 import AddNewItem from './AddNewItem';
 import AddNewUser from './AddNewUser';
 import User from './User';
 import CostItem from './CostItem';
+import Header from './Header';
 
 
 class App extends Component {
@@ -50,6 +51,7 @@ class App extends Component {
   render() {
     return (
       <div className="container">
+        <Header />
         <header className="header-title card-panel">
         <h1><img height="70" width="70"
         src="https://api.icons8.com/download/16e39063cf7f72a497ae57d67086817378c225d4/Android_L/PNG/256/Very_Basic/home-256.png" />
@@ -84,6 +86,6 @@ App.propTypes = {
 export default createContainer(() => {
   return {
     costItems: CostItems.find({}, {createdAt: -1}).fetch(),
-    users: Users.find({}).fetch(),
+    users: FlatMates.find({}).fetch(),
   };
 }, App);

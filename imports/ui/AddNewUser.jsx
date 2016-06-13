@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 
-import { Users } from '../api/users';
+import { FlatMates } from '../api/users';
 
 export default class AddNewUser extends Component {
 
@@ -13,11 +13,11 @@ export default class AddNewUser extends Component {
     }
     else {
 
-      if (Users.findOne({nick: nick})) {
+      if (FlatMates.findOne({nick: nick})) {
         Materialize.toast("Taki nick współlokatora został już dodany wczesniej!", 2000);
       }
       else {
-        Meteor.call("users.insert", nick);
+        Meteor.call("flatmates.insert", nick);
         Materialize.toast("Współlokator: '" + nick + "' został dodany!", 2000);
         this.refs.nickInput.value = '';
       }

@@ -15,6 +15,24 @@ TODO:
 5) walidation to forms other than Materialize.toast
 
 
+Zadanie 2:
+
+Waszym poprzednim zadaniem było napisanie front-end’u aplikacji, która pomoże współlokatorom pilnować domowych rozliczeń. Aplikacja ta miała działać w oparciu o local storage, który wymaga dokonywania rozliczeń w ramach jednej tylko przeglądarki. 
+
+Aktualnie przyszedł czas na dodanie naszej aplikacji odrobiny mobilności.
+Chcielibyśmy aby dane zapisywane były w naszej bazie danych (MongoDB), a strona umożliwiała rejestrowanie wielu grup (mieszkań). Każdy lokator powinien mieć możliwość dodania zobowiązań jakie mają inni wobec niego. Lokatorzy mogą mieć wgląd jedynie do danych grup, których są członkami.
+
+Dodatkowym atutem będzie system komunikacji w grupie (czat grupowy).
+
+Podsumowując do zrobienia jest:
+rejestracja użytkowników
+rejestracja wielu grup
+tworzenie zobowiązań (w MongoDB)
+polityka dostępu
+dodatkowo dla chętnych - chat
+
+Ważne aby zadanie zostało wykonane zgodnie z założeniami.
+
 Zadanie 1:
 Napisz front-end aplikacji, która pomoże współlokatorom pilnować domowych rozliczeń.
 Lokatorzy mogą robić zakupy dla kogoś innego bądź te dotyczące wszystkich - wówczas cenna powinna być dzielona na każdego z domowników.

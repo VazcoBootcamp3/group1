@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 
-import { Users } from '../api/users';
+import { FlatMates } from '../api/users';
 
 
 export default class AddNewItem extends Component {
 
   getDebtor(debtor) {
-    debtorUser = Users.findOne({nick: debtor});
+    debtorUser = FlatMates.findOne({nick: debtor});
     if (debtor.toLowerCase() === 'all') {
       return debtor.toLowerCase();
     }
@@ -20,7 +20,7 @@ export default class AddNewItem extends Component {
   }
 
   validateContractor(contractor) {
-    if (Users.findOne({nick: contractor})) {
+    if (FlatMates.findOne({nick: contractor})) {
       return true;
     }
     return false;
@@ -60,6 +60,7 @@ export default class AddNewItem extends Component {
     }
 
     getUserSelectValues(withAll) {
+      // TODO
       // Dużo wydajniej jest iterować po kursorze z mongo:
       //
       // const users = Users.find().map(function (user) {
@@ -69,7 +70,7 @@ export default class AddNewItem extends Component {
       if (withAll) {
         options.push({value: 'all', label: 'all'});
       }
-      const users = Users.find({}).fetch();
+      const users = FlatMates.find({}).fetch();
       for (var user in users) {
         options.push({value: users[user].nick, label: users[user].nick})
       }

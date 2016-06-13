@@ -3,22 +3,22 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
-export const Users = new Mongo.Collection('users');
+export const FlatMates = new Mongo.Collection('flatmates');
 
 Meteor.methods({
-  'users.insert'(nick) {
+  'flatmates.insert'(nick) {
     check(nick, String);
 
-    Users.insert({
+    FlatMates.insert({
       nick,
       balance: 0.0,
       createdAt: new Date(),
     });
   },
-  'users.remove'(userId) {
+  'flatmates.remove'(userId) {
     check(userId, String);
-    
-    var user = Users.findOne({_id: userId});
+
+    var user = FlatMates.findOne({_id: userId});
     var userBalance = user && user.balance;
     if (userBalance > 0.0) {
       Materialize.toast("Usuwany użytkownik powinien otrzymać zwrot: " + userBalance + " PLN!", 10000);
@@ -30,11 +30,11 @@ Meteor.methods({
     else {
       Materialize.toast("Usuwany użytkownik nie posiada zadłużenia ani nie jest wierzycielem :)", 10000);
     }
-    Users.remove({_id: userId});
+    FlatMates.remove({_id: userId});
   },
 
-  'users.updateBalance'(userId, balanceChange) {
+  'flatmates.updateBalance'(userId, balanceChange) {
     check(balanceChange, Number);
-    Users.update(userId, { $inc: { balance: balanceChange } });
+    FlatMates.update(userId, { $inc: { balance: balanceChange } });
   },
 });
