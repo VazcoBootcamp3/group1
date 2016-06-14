@@ -33,12 +33,7 @@ Meteor.methods({
   'costItems.setPayed'(itemId, setPayed) {
     check(itemId, String);
     check(setPayed, Boolean);
-    if (Meteor.user().username === this.contractor) {
-      CostItems.update(itemId, { $set: { isPayed: setPayed } });
-    }
-    else {
-      Materialize.toast("Tylko ten który zapłacił za zakupy może zaznaczyć task jako zapłacony :)", 4000);
-    }
+    CostItems.update(itemId, { $set: { isPayed: setPayed } });
   },
 });
 

@@ -10,11 +10,16 @@ export default class Item extends Component {
   }
 
   setItemPayed(e) {
-    if (!this.props.item.isPayed) {
-      Meteor.call('costItems.setPayed', this.props.item._id, true);
+    if (Meteor.user().username === this.props.item.contractor) {
+      if (!this.props.item.isPayed) {
+        Meteor.call('costItems.setPayed', this.props.item._id, true);
+      }
+      else {
+        Meteor.call('costItems.setPayed', this.props.item._id, false);
+      }
     }
     else {
-      Meteor.call('costItems.setPayed', this.props.item._id, false);
+      Materialize.toast("Tylko ten który zapłacił za zakupy może zaznaczyć task jako zapłacony :)", 4000);
     }
   }
 
@@ -25,7 +30,8 @@ export default class Item extends Component {
   }
 
   render() {
-    const userCount = Meteor.users.find({}).count();
+    const loggedUserGroup = Meteor.user().profile.group;
+    const userCount = Meteor.users.find({"profile.group": loggedUserGroup}).count();
     const totalMoney = this.props.item.moneyOwned;
     const itemClassName = this.props.item.isPayed ? 'checked' : '';
     let itemDebt = this.props.item.moneyOwned;
@@ -56,6 +62,6 @@ export default class Item extends Component {
   }
 };
 
-// Item.propTypes = {
-//   item: PropTypes.object.isRequired,
-// };
+Item.propTypes = {
+  item: PropTypes.object.isRequired,
+};

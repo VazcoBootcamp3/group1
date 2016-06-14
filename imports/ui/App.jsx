@@ -23,11 +23,11 @@ class App extends Component {
     }
 
   renderCostItems() {
-    const user =  Meteor.user();
-    if (user) {
-      const loggedUserGroup = user.profile.group;
+    const loggedUser =  Meteor.user();
+    if (loggedUser) {
+      const loggedUserGroup = loggedUser.profile.group;
       let filteredItems = this.props.costItems;
-      filteredItems = filteredItems.filter(item => item.group !== this.loggedUserGroup);
+      filteredItems = filteredItems.filter(item => item.group === loggedUserGroup);
       if (this.state.hidePayedItems) {
         filteredItems = filteredItems.filter(item => !item.isPayed);
       }
@@ -36,7 +36,13 @@ class App extends Component {
   }
 
   renderUsers() {
-    return this.props.users.map((user) => (<User key={user._id} user={user} />));
+    const loggedUser =  Meteor.user();
+    if (loggedUser) {
+      const loggedUserGroup = loggedUser.profile.group;
+      let filteredUsers = this.props.users;
+      filteredUsers = filteredUsers.filter(user => user.profile.group === loggedUserGroup);
+      return filteredUsers.map((user) => (<User key={user._id} user={user} />));
+    }
   }
 
   renderInfoForAnonim() {
