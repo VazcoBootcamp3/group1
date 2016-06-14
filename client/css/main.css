@@ -29,7 +29,7 @@ body {
 
 .sl-add-btn {
   float: right;
-  margin: 25px 50px 15px 7px;
+  margin: 35px 35px 15px 7px;
 }
 
 .box {
@@ -79,3 +79,29 @@ body {
 .column-left{ float: left; width: 33%; }
 .column-right{ float: right; width: 33%; }
 .column-center{ display: inline-block; width: 33%; }
+
+.login-box {
+  width: 30%;
+  min-width: 400px;
+  margin: 30px auto 0 auto;
+  border: 2px solid #E0E0E0;
+}
+
+.login-btn {
+  margin: 20px auto 20px auto;
+}
+
+.login-fields {
+  padding: 20px;
+  width: 80%;
+  margin: 0 auto 0 auto;
+}
+
+.login-box header {
+  background-color: rgb(0, 188, 212);
+  color: #FFF;
+  font-weight: bold;
+  font-size: 32px;
+  padding: 30px;
+  border: 2px solid rgb(0, 188, 212);
+}

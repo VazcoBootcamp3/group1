@@ -7,7 +7,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import App from '/components/App.jsx';
+import App from '/imports/ui/App.jsx';
+import '/imports/api/items.js';
 
 
 Meteor.startup(() => {
