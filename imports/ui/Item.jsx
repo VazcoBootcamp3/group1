@@ -57,34 +57,51 @@ export default class Item extends Component {
 			    />
 			    <CardText expandable={true}>
 			    	<div className="column-left">
-			    		<Subheader>Products:</Subheader>
-				    	<p className="item-t">{this.props.item.products}</p>
+			    		<div className="item-box">
+				    		<Subheader>Products:</Subheader>
+					    	<p className="item-t">{this.props.item.products}</p>
+				    	</div>
+
+			    		<div className="item-box">
+				    		<Subheader>Total cost:</Subheader>
+					    	<p className="item-t item-cost item-total">{this.props.item.totalCost} zł</p>
+				    	</div>
 				    </div>
 			    		
 			    	<div className="column-right">
-			    		<Subheader>Total cost:</Subheader>
-				    	<p className="item-t item-cost">{this.props.item.totalCost} zł</p>
+			    		<div className="item-box">
+			    			<Subheader>You should pay:</Subheader>
+					    	<p className="item-t item-cost item-your-cost">0.50 zł</p>
+				    	</div>
+
+			    		<div className="item-box">
+			    			<Subheader>Options:</Subheader>
+			          		<p className="item-t item-cost item-your-cost">{this._btnSettle()}</p>
+			          	</div>
 			    	</div>
 
 			    	<div className="column-center">
-			    		<Subheader>Shared with:</Subheader>
-			    		<div className="item-t">
-				    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
-				    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
-				    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
-				    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
+			    		<div className="item-box">
+			    			<Subheader>Shared with:</Subheader>
+				    		<div className="item-t">
+					    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
+					    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
+					    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
+					    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
+					    	</div>
 				    	</div>
 
-				    	<Subheader>Still guilty:</Subheader>
-			    		<div className="item-t">
-				    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
+			    		<div className="item-box">
+					    	<Subheader>Still guilty:</Subheader>
+				    		<div className="item-t">
+					    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
+					    	</div>
 				    	</div>
 				    </div>
 			    </CardText>
 
 			    <CardActions expandable={true}>
 		          	<div className="item-btn-panel">
-			          {this._btnSettle()}
 			          {this._btnDelete()}
 					</div>
 			    </CardActions>
