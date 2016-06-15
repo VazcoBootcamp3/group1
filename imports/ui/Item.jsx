@@ -30,16 +30,6 @@ export default class Item extends Component {
 	    );
 	}
 
-	_btnEdit() {
-		return(
-       <RaisedButton
-	      label="EDIT"
-	      icon={<FontIcon className="material-icons">edit</FontIcon>}
-	      className="item-btn"
-	    />		
-	    );
-	}
-
 	_btnDelete() {
 		if(Meteor.userId() === this.props.item.debtor) 
 			return(
@@ -90,7 +80,6 @@ export default class Item extends Component {
 			    <CardActions expandable={true}>
 		          	<div className="item-btn-panel">
 			          {this._btnSettle()}
-			          {this._btnEdit()}
 			          {this._btnDelete()}
 					</div>
 			    </CardActions>
