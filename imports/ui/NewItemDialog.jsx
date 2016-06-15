@@ -21,7 +21,7 @@ export default class NewItem extends React.Component {
         super(props);
         this.state = {
             shareWith: [],
-
+            possibleChoice: [],
             dialogStatus: false,
         };
 
@@ -31,10 +31,16 @@ export default class NewItem extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             dialogStatus: nextProps.open, 
+            possibleChoice: Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch(),
         });
     }
 
-    addToShare(event, index, value) {
+    addToShare(e, index) {
+        let tmp = this.state.shareWith;
+        tmp.push(this.state.possibleChoice[index]);
+        this.setState({
+            shareWith: tmp, 
+        });
     }
 
     _handleSubmit(event) {
@@ -70,6 +76,7 @@ export default class NewItem extends React.Component {
     _closeDialog() {
         this.setState({
             dialogStatus: false,
+            shareWith: [],
         });
     }
 
@@ -112,8 +119,13 @@ export default class NewItem extends React.Component {
     _renderShareInput() {
         return(
             <div>
-                <SelectField onChange={this.addToShare} fullWidth={true} floatingLabelText="Add to share">
-
+                <SelectField onChange={this.addToShare.bind(this)} fullWidth={true} floatingLabelText="Add to share" ref="addToShareInput">
+                    {this.state.possibleChoice.map((value, key) => (
+                        <MenuItem key={key}
+                                  value={value._id}
+                                  primaryText={value.username}
+                        />
+                    ))}
                 </SelectField>
 
                 <List>
@@ -121,8 +133,8 @@ export default class NewItem extends React.Component {
                     {this.state.shareWith.map((value, key) => (
                         <ListItem
                             key={key}
-                            primaryText={value.name}
-                            leftAvatar={<Avatar src={value.avatar} />}
+                            primaryText={value.username}
+                            leftAvatar={<Avatar src='' />}
                         />
                     ))}
                 </List>
