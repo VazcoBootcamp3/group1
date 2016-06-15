@@ -74,6 +74,11 @@ export default class Item extends Component {
 				    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
 				    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
 				    	</div>
+
+				    	<Subheader>Still guilty:</Subheader>
+			    		<div className="item-t">
+				    		<Avatar className="item-avatar" src="http://material-ui.com/images/uxceo-128.jpg" size={40} />
+				    	</div>
 				    </div>
 			    </CardText>
 
