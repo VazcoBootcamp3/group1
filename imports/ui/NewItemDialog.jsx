@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
+import {Meteor} from 'meteor/meteor';
 
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -57,7 +58,8 @@ export default class NewItem extends React.Component {
 
 
         Items.insert({
-            username: "michal",
+            debtor: Meteor.userId(),
+            username: Meteor.user().username,
             products: this.refs.productsInput.getValue(),
             date: this.refs.dateInput.getDate(),
             totalCost: this.refs.totalCostInput.getValue(),

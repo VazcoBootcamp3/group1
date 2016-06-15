@@ -9,6 +9,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from '/imports/ui/App.jsx';
 import '/imports/api/items.js';
+import '/imports/startup/accounts-config.js';
 
 
 Meteor.startup(() => {
