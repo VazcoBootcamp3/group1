@@ -9,6 +9,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from '/imports/ui/App.jsx';
 import '/imports/api/items.js';
+import '/imports/api/groups.js';
+import '/imports/api/debts.js';
 import '/imports/startup/accounts-config.js';
 
 
