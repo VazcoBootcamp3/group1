@@ -36,7 +36,6 @@ export default class NewItemButton extends React.Component {
                 <NewItemDialog open={this.state.open} users={this.props.users} />
                 
             </div>
-
         );
     }
 }

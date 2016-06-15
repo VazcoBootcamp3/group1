@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import {Meteor} from 'meteor/meteor';
+import {Random} from 'meteor/random';
 
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -15,6 +16,7 @@ import FontIcon from 'material-ui/FontIcon';
 import Dialog from 'material-ui/Dialog';
 
 import {Items} from '/imports/api/items';
+import {Debts} from '/imports/api/debts';
 
 export default class NewItem extends React.Component {
     constructor(props) {
@@ -47,15 +49,12 @@ export default class NewItem extends React.Component {
                 tmp.splice(i, 1);
             }
         }
-        console.log(tmp);
         this.setState({
             possibleChoice: tmp, 
         });
     }
 
     _addToShare(e, index) {
-        console.log('[addToShare] index: ' + index);
-
         let tmp = this.state.shareWith;
         tmp.push(this.state.possibleChoice[index]);
 
@@ -68,8 +67,7 @@ export default class NewItem extends React.Component {
 
     _handleSubmit(event) {
         event.preventDefault();
-
-        console.log(this.state.shareWith);
+        
 
         if(!this.refs.productsInput.getValue()) {
             alert("You should fill the products field.");
@@ -86,16 +84,39 @@ export default class NewItem extends React.Component {
             return;
         }
 
+        if(this.state.shareWith.length == 0) {
+            alert("You should add somebody to share expense");
+            return;
+        }
 
+        let productsInput = this.refs.productsInput.getValue();
+        let dateInput = this.refs.dateInput.getDate()
+        let totalCostInput = this.refs.totalCostInput.getValue();
+
+
+        let itemId = Random.id();
 
         Items.insert({
-            debtor: Meteor.userId(),
+            _id: itemId,
+            creditor: Meteor.userId(),
             username: Meteor.user().username,
-            products: this.refs.productsInput.getValue(),
-            date: this.refs.dateInput.getDate(),
-            totalCost: this.refs.totalCostInput.getValue(),
+            products: productsInput,
+            date: dateInput,
+            totalCost: totalCostInput,
             createdAt: new Date(),
         });
+
+        this.state.shareWith.map((value) => {
+            Debts.insert({
+                creditor: Meteor.userId(),
+                debtor: value._id,
+                item: itemId,
+                cost: totalCostInput/(this.state.shareWith.length +1),
+                createdAt: new Date(),
+            });
+        });
+        
+
 
         this._closeDialog();
     }
@@ -106,7 +127,6 @@ export default class NewItem extends React.Component {
             shareWith: [],
             possibleChoice: this.props.users,  
         });
-        console.log(this.props.users);
     }
 
     _renderProductsInput() {
