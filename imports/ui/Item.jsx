@@ -31,7 +31,7 @@ export default class Item extends Component {
 	}
 
 	_btnDelete() {
-		if(Meteor.userId() === this.props.item.debtor) 
+		if(Meteor.userId() === this.props.item.creditor) 
 			return(
 		       	<RaisedButton
 			      label="DELETE"
@@ -76,7 +76,8 @@ export default class Item extends Component {
 
 			    		<div className="item-box">
 			    			<Subheader>Options:</Subheader>
-			          		<p className="item-t item-cost item-your-cost">{this._btnSettle()}</p>
+			          		{this._btnSettle()}
+			          		{this._btnDelete()}
 			          	</div>
 			    	</div>
 
@@ -99,12 +100,6 @@ export default class Item extends Component {
 				    	</div>
 				    </div>
 			    </CardText>
-
-			    <CardActions expandable={true}>
-		          	<div className="item-btn-panel">
-			          {this._btnDelete()}
-					</div>
-			    </CardActions>
 			  </Card>
 		);
 	}
