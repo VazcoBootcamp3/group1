@@ -26,18 +26,41 @@ export default class NewItem extends React.Component {
         };
 
         this._closeDialog = this._closeDialog.bind(this);
+        this._removeObject = this._removeObject.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             dialogStatus: nextProps.open, 
-            possibleChoice: Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch(),
+            possibleChoice: this.props.users,  
         });
     }
 
-    addToShare(e, index) {
+    _removeObject(attr, value) {
+        let i = this.state.possibleChoice.length;
+        let tmp = this.state.possibleChoice.slice(0);
+        while(i--) {
+            if(tmp[i]
+                && tmp[i].hasOwnProperty(attr)
+                && tmp[i][attr] === value) {
+                
+                tmp.splice(i, 1);
+            }
+        }
+        console.log(tmp);
+        this.setState({
+            possibleChoice: tmp, 
+        });
+    }
+
+    _addToShare(e, index) {
+        console.log('[addToShare] index: ' + index);
+
         let tmp = this.state.shareWith;
         tmp.push(this.state.possibleChoice[index]);
+
+        this._removeObject('_id', this.state.possibleChoice[index]._id);
+
         this.setState({
             shareWith: tmp, 
         });
@@ -45,6 +68,8 @@ export default class NewItem extends React.Component {
 
     _handleSubmit(event) {
         event.preventDefault();
+
+        console.log(this.state.shareWith);
 
         if(!this.refs.productsInput.getValue()) {
             alert("You should fill the products field.");
@@ -71,13 +96,17 @@ export default class NewItem extends React.Component {
             totalCost: this.refs.totalCostInput.getValue(),
             createdAt: new Date(),
         });
+
+        this._closeDialog();
     }
 
     _closeDialog() {
         this.setState({
             dialogStatus: false,
             shareWith: [],
+            possibleChoice: this.props.users,  
         });
+        console.log(this.props.users);
     }
 
     _renderProductsInput() {
@@ -119,7 +148,7 @@ export default class NewItem extends React.Component {
     _renderShareInput() {
         return(
             <div>
-                <SelectField onChange={this.addToShare.bind(this)} fullWidth={true} floatingLabelText="Add to share" ref="addToShareInput">
+                <SelectField onChange={this._addToShare.bind(this)} fullWidth={true} floatingLabelText="Add to share" ref="addToShareInput">
                     {this.state.possibleChoice.map((value, key) => (
                         <MenuItem key={key}
                                   value={value._id}
@@ -178,4 +207,5 @@ export default class NewItem extends React.Component {
 
 NewItem.propTypes = {
     open: PropTypes.bool.isRequired,
+    users: PropTypes.array.isRequired,
 }
