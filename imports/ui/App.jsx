@@ -34,7 +34,7 @@ class App extends React.Component {
         <Tabs>
           <Tab icon={<FontIcon className="material-icons">shopping_cart</FontIcon>} 
                label="SHOPPING LIST">
-               <ShoppingList items={this.props.items} />
+               <ShoppingList items={this.props.items} users={this.props.users} />
           </Tab>
           <Tab icon={<FontIcon className="material-icons">equalizer</FontIcon>} 
                label="REPORT">
@@ -75,11 +75,13 @@ class App extends React.Component {
 }
 
 App.propTypes = {
+  users: PropTypes.array.isRequired,
 };
 
 export default createContainer(() => {
   return{
     currentUser: "michal",
     items: Items.find({}, { sort: { date: -1 } }).fetch(),
+    users: Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch(),
   };
 }, App);

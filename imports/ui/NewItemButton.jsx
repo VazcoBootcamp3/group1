@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 
 import NewItemDialog from '/imports/ui/NewItemDialog';
 
-export default class extends React.Component {
+export default class NewItemButton extends React.Component {
     constructor(...args) {
         super(...args);
 
@@ -33,10 +33,14 @@ export default class extends React.Component {
                     <ContentAdd />
                 </FloatingActionButton>
 
-                <NewItemDialog open={this.state.open} />
+                <NewItemDialog open={this.state.open} users={this.props.users} />
                 
             </div>
 
         );
     }
+}
+
+NewItemButton.propTypes = {
+    users: PropTypes.array.isRequired,
 }
