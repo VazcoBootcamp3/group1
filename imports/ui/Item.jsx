@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {Meteor} from 'meteor/meteor';
 
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
@@ -40,15 +41,16 @@ export default class Item extends Component {
 	}
 
 	_btnDelete() {
-		return(
-       <RaisedButton
-	      label="DELETE"
-	      backgroundColor={red100}
-	      icon={<FontIcon className="material-icons">delete</FontIcon>}
-	      className="item-btn"
-	      onTouchTap={this._deleteItem.bind(this)}
-	    />		
-	    );
+		if(Meteor.userId() === this.props.item.debtor) 
+			return(
+		       	<RaisedButton
+			      label="DELETE"
+			      backgroundColor={red100}
+			      icon={<FontIcon className="material-icons">delete</FontIcon>}
+			      className="item-btn"
+			      onTouchTap={this._deleteItem.bind(this)}
+			    />		
+		    );
 	}
 
 	render() {
