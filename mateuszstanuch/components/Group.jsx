@@ -18,17 +18,20 @@ export default class extends React.Component {
         let groupName = this.refs.groupName.value;
         let userId = Meteor.userId();
 
-
-        Meteor.call('groups.createOrJoin', {
-            groupName: groupName,
-            userId: userId
-        }, (err, res) => {
-            if (err) {
-                alert(err);
-            } else {
-                // success!
-            }
-        })
+        if(groupName == '') {
+            Materialize.toast("Uzupełnij nazwę grupy");
+        } else {
+            Meteor.call('groups.createOrJoin', {
+                groupName: groupName,
+                userId: userId
+            }, (err, res) => {
+                if (err) {
+                    Materialize.toast(err.reason, 4000);
+                } else {
+                    Materialize.toast(res, 4000);
+                }
+            })
+        }
     }
 
     componentDidMount () {

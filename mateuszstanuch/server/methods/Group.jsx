@@ -3,7 +3,6 @@ import GroupList from '../../imports/groups';
 
 Meteor.methods({
     'groups.createOrJoin'({groupName, userId}) {
-        // TODO check if user is in group
         // TODO get from Mongo only required fields
         // TODO DRY
         if(groupName === '' || userId === '') {
@@ -41,6 +40,11 @@ Meteor.methods({
             userGroups = userGroups.services.groups;
             userGroups.push(group._id);
 
+            // Prevent double join
+            userGroups = new Set(userGroups);
+            userGroups = [...userGroups];
+
+            // update User
             Meteor.users.update({
                 _id: userId
             }, {
@@ -49,15 +53,23 @@ Meteor.methods({
                 }
             });
 
+            // adding new user
             let groupUsers = group.users;
             groupUsers.push(userId);
+
+            // prevent double join
+            groupUsers = new Set(groupUsers);
+            groupUsers = [...groupUsers];
+
+            // update users in group
             GroupList.update({
                 _id: group._id,
             }, {
                 $set: {
                     users: groupUsers,
                 }
-            })
+            });
         }
+        return "Pomyślnie wykonano operacje :)";
     }
 });
