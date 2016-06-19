@@ -8,7 +8,6 @@ const composer = ( props, onData ) => {
     if( Meteor.subscribe('group-list').ready() ) {
         const groups = GroupList.find({}).fetch();
         onData(null, {groups});
-        console.log(groups);
     }
 };
 
