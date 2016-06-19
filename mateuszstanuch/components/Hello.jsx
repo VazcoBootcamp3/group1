@@ -1,16 +1,11 @@
 import React from 'react/react';
 
-export default class extends React.Component {
-    constructor(...args) {
-        super(...args);
-    }
+const Hello = (props) => {
+    return (
+        <div>
+            <h1>Cześć, {props.username}!</h1>
+        </div>
+    )
+};
 
-    render () {
-        return (
-            <div>
-                Cześć!
-            </div>
-        );
-    }
-
-}
+export default Hello;

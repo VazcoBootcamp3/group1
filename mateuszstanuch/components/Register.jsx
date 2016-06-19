@@ -1,7 +1,7 @@
 import React from 'react/react';
 import { Accounts } from 'meteor/accounts-base';
 
-export default class extends React.Component {
+export default class Register extends React.Component {
     constructor (...args) {
         super(...args);
         this.onSubmit = this.onSubmit.bind(this);
@@ -41,6 +41,11 @@ export default class extends React.Component {
                 Materialize.toast("Wypełnij wszystkie pola");
             }
         }
+    }
+
+    componentWillMount () {
+        if( this.props.isLoggedIn )
+            FlowRouter.go('Home');
     }
 
     render () {

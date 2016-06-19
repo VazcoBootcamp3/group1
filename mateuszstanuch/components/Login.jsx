@@ -1,6 +1,6 @@
 import React from 'react/react';
 
-export default class extends React.Component {
+export default class Login extends React.Component {
     constructor (...args) {
         super(...args);
         this.onSubmit = this.onSubmit.bind(this);
@@ -26,6 +26,11 @@ export default class extends React.Component {
         } else {
             Materialize.toast("Wypełnij wszystkie pola");
         }
+    }
+
+    componentWillMount () {
+        if( this.props.isLoggedIn )
+            FlowRouter.go('Home');
     }
 
     render () {
