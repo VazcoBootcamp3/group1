@@ -1,6 +1,6 @@
-const GroupsList = new UniCollection('groups');
+const GroupList = new UniCollection('groups');
 
-GroupsList.setSchema(new SimpleSchema({
+GroupList.setSchema(new SimpleSchema({
    name: {
        type: String,
        max: 50,
@@ -10,4 +10,4 @@ GroupsList.setSchema(new SimpleSchema({
    },
 }));
 
-export default GroupsList;
+export default GroupList;

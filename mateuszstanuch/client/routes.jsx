@@ -6,7 +6,7 @@ import { LoginContainer, RegisterContainer } from '../containers/AuthContainers'
 import Checkout from '../components/Checkout';
 import Report from '../components/Report';
 import { HomeContainer } from '../containers/HomeContainer';
-import Group from '../components/Group';
+import { GroupContainer } from  '../containers/GroupContainers';
 
 FlowRouter.route("/", {
     name: 'Home',
@@ -39,7 +39,7 @@ FlowRouter.route("/group", {
     name: 'Group',
     action () {
         mount(AppLayout, {
-            content: <Group />
+            content: <GroupContainer />
         });
     }
 });

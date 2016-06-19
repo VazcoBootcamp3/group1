@@ -1,16 +1,10 @@
 import React from 'react/react';
 
-export default class extends React.Component {
+export default class GroupJoin extends React.Component {
     constructor (...args) {
         super(...args);
         
         this.onSubmit = this.onSubmit.bind(this);
-        this.checkUserLogin = this.checkUserLogin.bind(this);
-    }
-
-    checkUserLogin () {
-        if(!Meteor.userId())
-            FlowRouter.go('Login');
     }
     
     onSubmit (e) {
@@ -32,10 +26,6 @@ export default class extends React.Component {
                 }
             })
         }
-    }
-
-    componentDidMount () {
-        this.checkUserLogin();
     }
 
     render () {
