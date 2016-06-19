@@ -4,12 +4,11 @@ import Hello from '../components/Hello';
 
 
 const composer = ( props, onData ) => {
-    let user = Meteor.user();
     let username;
-    if(user === null) {
-        username = 'nieznajomy';
+    if(Meteor.user() && Meteor.user().username) {
+        username = Meteor.user().username;
     } else {
-        username = user.username;
+        username = 'nieznajomy';
     }
 
     onData(null, {username} );
