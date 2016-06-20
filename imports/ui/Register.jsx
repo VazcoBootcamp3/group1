@@ -16,6 +16,7 @@ export default class extends React.Component {
         this.state = {
             finished: false,
             stepIndex: 0,
+            showPassword: false,
         }
     }
 
@@ -33,7 +34,7 @@ export default class extends React.Component {
             });
     }
 
-    renderStepActions(step) {
+    _renderStepActions(step) {
         const {stepIndex} = this.state;
 
         return (
@@ -46,6 +47,7 @@ export default class extends React.Component {
               onTouchTap={this._nextStep.bind(this)}
               className="login-btn"
             />
+
             {step > 0 && (
               <FlatButton
                 label="Back"
@@ -55,8 +57,15 @@ export default class extends React.Component {
                 onTouchTap={this._prevStep.bind(this)}
               />
             )}
+
           </div>
         );
+    }
+
+    _showPassword() {
+        this.setState({
+            showPassword: !this.state.showPassword,  
+        });
     }
 
     render() {
@@ -79,13 +88,14 @@ export default class extends React.Component {
                                     <TextField
                                         floatingLabelText="Password"
                                         fullWidth={true}
-                                        type="password"
+                                        type={this.state.showPassword ? "text" : "password"}
                                         ref="password"
                                     />
 
                                     <Toggle
                                       label="Show my password"
                                       labelPosition="right"
+                                      onToggle={this._showPassword.bind(this)}
                                     />
 
                                     <TextField
@@ -98,14 +108,14 @@ export default class extends React.Component {
                                         fullWidth={true}
                                     />
                                 </div>
-                                {this.renderStepActions(0)}
+                                {this._renderStepActions(0)}
                             </StepContent>
                         </Step>
 
                         <Step>
                             <StepLabel>Find group or create your own</StepLabel>
                             <StepContent>
-                            {this.renderStepActions(1)}
+                            {this._renderStepActions(1)}
                             </StepContent>
                         </Step>
 
@@ -113,7 +123,7 @@ export default class extends React.Component {
                             <StepLabel>Have fun</StepLabel>
                             <StepContent>
                             <p>If you'll have any troubles, please contact with me at abc@dot.dot, good luck ;)</p>
-                            {this.renderStepActions(2)}
+                            {this._renderStepActions(2)}
                             </StepContent>
                         </Step>
                     </Stepper>
