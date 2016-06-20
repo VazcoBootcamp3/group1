@@ -1,5 +1,8 @@
 import React from 'react';
 
+// TODO support groups
+// TODO autocomplete for usernames/groupnames
+
 export default class extends React.Component {
     constructor (...args) {
         super(...args);
@@ -11,24 +14,27 @@ export default class extends React.Component {
 
         let shopping = {
             buyer: this.refs.buyer.value,
-            isBuyerGroup: false,
             indebted: this.refs.indebted.value,
-            isIndebtedGroup: false,
+            indebtedGroup: 'not supported',
             products: this.refs.products.value,
             price: this.refs.price.value,
-            paid: false,
         };
 
-        if(shopping.buyer !== "" && shopping.indebted !== "" && shopping.products !== "" && shopping.price !== "" ) {
+        if(shopping.buyer !== "" && shopping.indebted !== "" && shopping.buyer !== shopping.indebted && shopping.products !== "" && shopping.price !== "" ) {
             Meteor.call('checkout.create', shopping, (err, res) => {
                 if (err) {
-                    Materialize.toast(err, 4000);
+                    Materialize.toast(err.reason, 4000);
                 } else {
+                    Materialize.toast(res, 4000);
                     FlowRouter.go('Report');
                 }
             });
         } else {
-            Materialize.toast("Wypełnij wszystkie pola w formularzu", 4000);
+            if(shopping.indebted === shopping.buyer) {
+                Materialize.toast("Kupujący i dłużny powinni być różnymi osobami", 4000);
+            } else {
+                Materialize.toast("Wypełnij wszystkie pola w formularzu", 4000);
+            }
         }
     }
 

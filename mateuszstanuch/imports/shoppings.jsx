@@ -1,28 +1,27 @@
+/*
+    This Collection contains history about shoppings
+ */
+
 const ShoppingList = new UniCollection('shoppings');
 
 ShoppingList.setSchema(new SimpleSchema({
     buyer: {
         type: String
     },
-    isBuyerGroup: {
-        type: Boolean
-    },
     indebted: {
         type: String
     },
-    isIndebtedGroup: {
-        type: Boolean
+    indebtedGroup: {
+        type: String
     },
     price: {
-        type: Number
+        type: Number,
+        decimal: true
     },
     products: {
         type: String,
         max: 300
     },
-    paid: {
-        type: Boolean
-    }
 }));
 
 export default ShoppingList;

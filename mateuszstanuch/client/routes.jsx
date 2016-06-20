@@ -4,7 +4,7 @@ import { mount } from 'react-mounter';
 import AppLayout from '../components/App';
 import { LoginContainer, RegisterContainer } from '../containers/AuthContainers';
 import Checkout from '../components/Checkout';
-import Report from '../components/Report';
+import { ReportContainer } from '../containers/ReportContainer';
 import { HomeContainer } from '../containers/HomeContainer';
 import { GroupContainer } from  '../containers/GroupContainers';
 
@@ -48,7 +48,7 @@ FlowRouter.route('/report', {
     name: 'Report',
     action () {
         mount(AppLayout, {
-            content: <Report />
+            content: <ReportContainer />
         })
     }
 });

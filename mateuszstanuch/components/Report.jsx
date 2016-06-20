@@ -1,72 +1,66 @@
 import React from 'react';
 
-export default class extends React.Component {
-    constructor (...args) {
-        super(...args);
+// TODO get username instead of _id
+// TODO shopping history
+// TODO settle a debt
 
-        if(!localStorage.getItem('shopping_list')) {
-            localStorage.setItem('shopping_list', JSON.stringify([]));
+const getSummary = (shoppings) => {
+    let shoppingsDict = {};
+    for(let s of shoppings) {
+        if(s.buyer in shoppingsDict) {
+            shoppingsDict[s.buyer] += s.price;
+        } else {
+            shoppingsDict[s.buyer] = s.price;
         }
 
-        this.state = {
-            shopping_list: JSON.parse(localStorage.getItem('shopping_list')),
-        }
-    }
-
-    changeStatus (id) {
-        for(let i in this.state.shopping_list) {
-            if(id === this.state.shopping_list[i].id) {
-
-                let list = this.state.shopping_list;
-                list[i].paid = !list[i].paid;
-
-                this.setState({
-                    shopping_list: list,
-                })
-
-                localStorage.setItem('shopping_list', JSON.stringify(list));
-            }
+        if(s.indebted in shoppingsDict) {
+            shoppingsDict[s.indebted] -= s.price;
+        } else {
+            shoppingsDict[s.indebted] = s.price;
         }
     }
 
-    render () {
-        return (
-            <table>
-            <thead>
-                <tr>
-                    <th>Kupujący</th>
-                    <th>Dłużny</th>
-                    <th>Kwota</th>
-                    <th>Lista zakupów</th>
-                    <th>Uregulowano?</th>
-                </tr>
-            </thead>
-            <tbody>
-                {this.state.shopping_list.map(
-                    (r, i) => {
-                        return <tr key={i}>
-                                    <td>{r.buyer}</td>
-                                    <td>{r.indebted}</td>
-                                    <td>{r.price}</td>
-                                    <td>{r.products}</td>
-                                    <td>
-                                        <input type="checkbox" className="filled-in"
-                                        checked={((r)=>{
-                                                if(r) {
-                                                    return "checked";
-                                                } else {
-                                                    return "";
-                                                }
-                                            })(r.paid)}
-
-                                        onChange={this.changeStatus.bind(this, r.id)}
-                                        />
-                                    </td>
-                                </tr>;
-                    }
-                )}
-            </tbody>
-            </table>
-        );
+    let shoppingsSummary = [];
+    for(let key in shoppingsDict) {
+        shoppingsSummary.push({
+            id: key,
+            balance: shoppingsDict[key],
+        });
     }
-}
+
+    return shoppingsSummary;
+};
+
+
+const ReportItem = (props) => {
+    return (
+            <div className="col s12 m6">
+                <div className="card blue-grey darken-1">
+                    <div className="card-content white-text">
+                        <span className="card-title">{props.info.id}</span>
+                        <p>
+                            {props.info.balance}
+                        </p>
+                    </div>
+                    <div className="card-action">
+                        <a href="#not-implemented-yet">Ureguluj</a>
+                        <a href="#not-implemented-yet">Pokaż historię zakupów</a>
+                    </div>
+                </div>
+            </div>
+    );
+};
+
+const Report = (props) => {
+    return (
+        <div className="row">
+                <h3>Podsumowanie</h3>
+                {
+                    (getSummary(props.shoppings))
+                        .map((shopping, k) => <ReportItem key={k} info={shopping} /> )
+                }
+        </div>
+    )
+};
+
+export default Report;

@@ -1,27 +1,27 @@
-import GroupList from '../../imports/groups';
 import ShoppingList from '../../imports/shoppings';
 
+// TODO support groups
+
 Meteor.methods({
-    'checkout.create'({buyer, isBuyerGroup, indebted, isIndebtedGroup, products, price, paid}) {
-        // Looking for buyer in database
-        let buyerId;
-        if(isBuyerGroup) {
-            buyerId = GroupList.findOne({name: buyer});
-        } else {
-            buyerId = Meteor.users.findOne({username: buyer});
+    'checkout.create'({buyer, indebted, indebtedGroup, products, price}) {
+
+        if( buyer === indebted ) {
+            throw new Meteor.Error('checkout.create.buyerIsIndebted',
+                'Kupujący powinien być dłużnikiem');
         }
+
+        // Looking for buyer in database
+        let buyerId = Meteor.users.findOne({username: buyer});
+
         if(!buyerId) {
             // user or group doesn't exist
             throw new Meteor.Error('checkout.create.buyerNotExist',
                 'Podany kupujący nie istnieje');
         }
+
         // Looking for indebted in database
         let indebtedId;
-        if(isIndebtedGroup) {
-            indebtedId = GroupList.findOne({name: indebted});
-        } else {
-            indebtedId = Meteor.users.findOne({username: indebted});
-        }
+        indebtedId = Meteor.users.findOne({username: indebted});
 
         if(!indebtedId) {
             // user or group doesn't exist
@@ -38,15 +38,13 @@ Meteor.methods({
         buyerId = buyerId._id;
         indebtedId = indebtedId._id;
 
-        // Umieszczenie zadłużenia w bazie danych
+        // Insert debt into collection
         ShoppingList.insert({
             buyer: buyerId,
-            isBuyerGroup: isBuyerGroup,
             indebted: indebtedId,
-            isIndebtedGroup: isIndebtedGroup,
+            indebtedGroup: indebtedGroup,
             price: price,
             products: products,
-            paid: paid,
         });
 
 
