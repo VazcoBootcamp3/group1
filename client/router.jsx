@@ -14,6 +14,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 FlowRouter.route('/', {
+	name: 'App',
 	action() {
 		mount(AppLayout, {
 			content: (<App />)

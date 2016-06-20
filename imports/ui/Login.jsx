@@ -7,6 +7,21 @@ import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 
 export default class extends React.Component {
+    
+    _handleLogin(e) {
+        e.preventDefault();
+
+        const username = this.refs.username.getValue();
+        const password = this.refs.password.getValue();
+
+        Meteor.loginWithPassword(username, password, (error) => {
+            if(error) 
+                alert(error);
+            else 
+                FlowRouter.go('App');
+        })
+    }
+
     render() {
         return(
             <div className="login-box">
@@ -15,8 +30,9 @@ export default class extends React.Component {
                 <Subheader>Sign in with a social network:</Subheader>
                 <div className="login-social-btn">
                     <IconButton
-                        iconClassName="muidocs-icon-custom-github" tooltip="top-right"
-                        tooltipPosition="github"
+                        iconClassName="muidocs-icon-custom-github" 
+                        tooltip="github"
+                        tooltipPosition="top-right"
                     />
                 </div>
 
@@ -45,6 +61,7 @@ export default class extends React.Component {
                         label="LOG IN"
                         primary={true}
                         className="login-btn"
+                        onTouchTap={this._handleLogin.bind(this)}
                     />
                     </div>
                 </div>
