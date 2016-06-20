@@ -16,7 +16,7 @@ export default class Login extends React.Component {
             
             Meteor.loginWithPassword(username, password, (error) => {
                 if(error) {
-                    Materialize.toast(error.reason);
+                    Materialize.toast(error.reason, 4000);
                     return;
                 }
 
@@ -24,7 +24,7 @@ export default class Login extends React.Component {
             });
 
         } else {
-            Materialize.toast("Wypełnij wszystkie pola");
+            Materialize.toast("Wypełnij wszystkie pola", 4000);
         }
     }
 

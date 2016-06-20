@@ -4,7 +4,7 @@ import React from 'react/react';
 function logout () {
     Meteor.logout(error => {
         if(error) {
-            Materialize.toast(error.reason);
+            Materialize.toast(error.reason, 4000);
         } else {
             Materialize.toast("Pomyślnie wylogowano :)", 4000);
             FlowRouter.go('Home');

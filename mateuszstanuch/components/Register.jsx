@@ -26,7 +26,7 @@ export default class Register extends React.Component {
                 } else {
                     Meteor.loginWithPassword(username, password, (error) => {
                        if(error) {
-                           Materialize.toast("Wystąpił błąd wewnętrzny, spróbuj ponownie później.");
+                           Materialize.toast("Wystąpił błąd wewnętrzny, spróbuj ponownie później.", 4000);
                            return;
                        }
                        FlowRouter.go('Home');
@@ -36,9 +36,9 @@ export default class Register extends React.Component {
 
         } else {
             if(password !== confirmPassword) {
-                Materialize.toast("Podane hasła nie są takie same");
+                Materialize.toast("Podane hasła nie są takie same", 4000);
             } else {
-                Materialize.toast("Wypełnij wszystkie pola");
+                Materialize.toast("Wypełnij wszystkie pola", 4000);
             }
         }
     }

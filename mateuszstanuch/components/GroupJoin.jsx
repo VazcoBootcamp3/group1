@@ -13,7 +13,7 @@ export default class GroupJoin extends React.Component {
         let userId = Meteor.userId();
 
         if(groupName == '') {
-            Materialize.toast("Uzupełnij nazwę grupy");
+            Materialize.toast("Uzupełnij nazwę grupy", 4000);
         } else {
             Meteor.call('groups.createOrJoin', {
                 groupName: groupName,
