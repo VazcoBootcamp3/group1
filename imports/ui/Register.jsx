@@ -89,18 +89,6 @@ export default class extends React.Component {
                                     />
 
                                     <TextField
-                                        floatingLabelText="First name"
-                                        fullWidth={true}
-                                        ref="password"
-                                    />
-
-                                    <TextField
-                                        floatingLabelText="Last name"
-                                        fullWidth={true}
-                                        ref="password"
-                                    />
-
-                                    <TextField
                                         floatingLabelText="Email"
                                         fullWidth={true}
                                     />
