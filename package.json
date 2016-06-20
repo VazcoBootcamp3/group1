@@ -12,6 +12,7 @@
     "react-addons-pure-render-mixin": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-mounter": "^1.2.0",
+    "react-notification-system": "^0.2.7",
     "react-tap-event-plugin": "^1.0.0"
   }
 }
