@@ -95,21 +95,44 @@ body {
 .column-right{ float: right; width: 33%; }
 .column-center{ display: inline-block; width: 33%; }
 
+
 .login-box {
-  width: 30%;
+  width: 35%;
   min-width: 400px;
-  margin: 30px auto 0 auto;
-  border: 2px solid #E0E0E0;
+  margin: 5% auto 0 auto;
+  border: 1px solid #E0E0E0;
 }
 
-.login-btn {
-  margin: 20px auto 20px auto;
+.login-social-btn {
+  padding: 0 30px 0 30px;
 }
 
 .login-fields {
-  padding: 20px;
+  padding: 0 30px 0 30px;
+  margin: -20px auto 0 auto;
+}
+
+.login-btn-bar {
+  display: block;
   width: 80%;
+  padding: 50px;
+}
+
+.login-btn-bar-center {
+  display: block;
+  width: 100%;
+  padding: 20px;
   margin: 0 auto 0 auto;
+  text-align: center;
+}
+
+.login-new-account-box {
+  display: inline;
+}
+
+.login-btn {
+  display: inline;
+  float: right;
 }
 
 .login-box header {
@@ -120,3 +143,7 @@ body {
   padding: 30px;
   border: 2px solid rgb(0, 188, 212);
 }
+
+.margin-top-1 { margin-top: 1%; }
+.margin-top-3 { margin-top: 3%; }
+

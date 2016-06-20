@@ -1,29 +1,55 @@
 import React from 'react';
 
+
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import Subheader from 'material-ui/Subheader';
 
 export default class extends React.Component {
     render() {
         return(
             <div className="login-box">
                 <header>LOG IN</header>
+
+                <Subheader>Sign in with a social network:</Subheader>
+                <div className="login-social-btn">
+                    <IconButton
+                        iconClassName="muidocs-icon-custom-github" tooltip="top-right"
+                        tooltipPosition="github"
+                    />
+                </div>
+
+                <Subheader>or use this form:</Subheader>
                 <div className="login-fields">
                     <TextField
                         floatingLabelText="Username"
                         fullWidth={true}
+                        ref="username"
                     />
                     <TextField
                         floatingLabelText="Password"
                         fullWidth={true}
                         type="password"
+                        ref="password"
                     />
+                </div>
+
+                <div className="login-btn-bar">
+                    <div className="login-new-account-box">
+                        <a href="/register">Click here to create new account</a>
+                    </div>
+                    
+                    <div className="login-btn">
                     <RaisedButton 
                         label="LOG IN"
                         primary={true}
                         className="login-btn"
                     />
+                    </div>
                 </div>
+
+
             </div>
         );
     }
