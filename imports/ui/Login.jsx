@@ -1,22 +1,39 @@
 import React from 'react';
 
-
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 
+import NotificationSystem from 'react-notification-system';
+
 export default class extends React.Component {
-    
+    componentDidMount() {
+        this._notification = this.refs.notification;
+    }
+
     _handleLogin(e) {
         e.preventDefault();
 
         const username = this.refs.username.getValue();
         const password = this.refs.password.getValue();
 
+        if(!username || !password) {
+            this._notification.addNotification({
+                message: 'Please fill the required fields.',
+                level: 'error',
+                position: 'tc',
+            });
+            return;
+        }
+
         Meteor.loginWithPassword(username, password, (error) => {
-            if(error) 
-                alert(error);
+            if(error)
+                this._notification.addNotification({
+                    message: error.reason,
+                    level: 'error',
+                    position: 'tc',
+                });
             else 
                 FlowRouter.go('App');
         })
@@ -25,7 +42,9 @@ export default class extends React.Component {
     render() {
         return(
             <div className="login-box">
-                <header>LOG IN</header>
+                <NotificationSystem ref="notification" className="notification" />
+
+                <header>SIGN IN</header>
 
                 <Subheader>Sign in with a social network:</Subheader>
                 <div className="login-social-btn">
@@ -65,8 +84,6 @@ export default class extends React.Component {
                     />
                     </div>
                 </div>
-
-
             </div>
         );
     }
