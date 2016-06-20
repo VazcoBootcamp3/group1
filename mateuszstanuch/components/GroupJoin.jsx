@@ -23,6 +23,9 @@ export default class GroupJoin extends React.Component {
                     Materialize.toast(err.reason, 4000);
                 } else {
                     Materialize.toast(res, 4000);
+
+                    // clear value of refs
+                    this.refs.groupName.value = '';
                 }
             })
         }
