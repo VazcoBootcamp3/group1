@@ -12,6 +12,8 @@ import Toggle from 'material-ui/Toggle';
 import {List, ListItem} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 
+import NotificationSystem from 'react-notification-system';
+
 import '/imports/api/users.js';
 import {Groups} from '/imports/api/groups.js';
 
@@ -27,6 +29,29 @@ export class Register extends React.Component {
             checkedGroup: '',
             checked: false,
         }
+
+        this._notificationSuccess = this._notificationSuccess.bind(this);
+        this._notificationError = this._notificationError.bind(this);
+    }
+
+    componentDidMount() {
+        this._notification = this.refs.notification;
+    }
+
+    _notificationSuccess(message) {
+        this._notification.addNotification({
+            message: message,
+            level: 'success',
+            position: 'tr',
+        });
+    }
+
+    _notificationError(message) {
+        this._notification.addNotification({
+            message: message,
+            level: 'error',
+            position: 'tr',
+        });
     }
 
     _nextStep() {
@@ -41,13 +66,6 @@ export class Register extends React.Component {
             this.setState({
                 stepIndex: this.state.stepIndex - 1,    
             });
-    }
-
-    _gotoStep(step) {
-        this.setState({
-            stepIndex: step,
-            finished: false,
-        });
     }
 
     _showPassword() {
@@ -99,22 +117,22 @@ export class Register extends React.Component {
         }
 
         if(username.length < 6) {
-            alert('Username.length');
+            this._notificationError('Username must be longer than 5 characters.');
             return;
         }
 
         if(password.length < 6) {
-            alert('Password.length');
+            this._notificationError('Password must be longer than 5 characters.');
             return;
         }
 
         if(!this._validateEmail(email)) {
-            alert('This email is incorrect');
+            this._notificationError('Email address is incorrect.');
             return;
         }
 
         if(!this._validatePhone(phone)) {
-            alert('Phone is incorrect');
+            this._notificationError('Phone number is incorrect.');
             return;
         }
 
@@ -130,12 +148,12 @@ export class Register extends React.Component {
 
         Meteor.call('user.exists', username, (error, result) => {
             if(error) {
-                console.log(error);
+                this._notificationError(error);
                 return;
             }
 
             if(result === true) {
-                alert('Username ' + username + ' already exists.');
+                this._notificationError('Username ' + username + ' already exists.');
             }
             else {
                 this.setState({
@@ -156,7 +174,7 @@ export class Register extends React.Component {
 
     _handleStep2() {
         if(!this.state.checkedGroup) {
-            alert('You must select group.');
+            this._notificationError('You must select group.');
             return;
         }
 
@@ -167,6 +185,9 @@ export class Register extends React.Component {
                 },
             },
         });
+
+        console.log(this.state.account.password);
+        console.log(typeof this.state.account.password);
 
         this._nextStep();
     }
@@ -180,26 +201,33 @@ export class Register extends React.Component {
 
         Meteor.call('groups.exists', this.state.checkedGroup, (error, result) => {
             if(error) {
-                alert(error);
+                this._notificationError(error);
                 return;
             }
 
             if(!result) {
                 Meteor.call('groups.create', this.state.checkedGroup, userId);
-                alert('Grupa ' + this.state.checkedGroup + ' zostala utworzona.');
+                this._notificationSuccess('Grupa ' + this.state.checkedGroup + ' zostala utworzona.');
             }
         });
 
+
+        console.log(this.state.account.password);
+        console.log(typeof this.state.account.password);
+
+        console.log(this.state.account);
+
         Accounts.createUser(this.state.account, (error) => {
             if(error) {
-                alert('Cos poszlo nie tak...');
+                this._notificationError(error);
                 return;
             }
             else {
-                alert('Witamy na pokladzie...');
+                this._notificationSuccess('Your account has been created.');
+
                 Meteor.loginWithPassword(this.state.account.username, this.state.account.password, (error) => {
                     if(error) {
-                        alert('Problemy z logowaniem...');
+                        this._notificationError(error);
                         return;
                     }
                     else {
@@ -214,6 +242,7 @@ export class Register extends React.Component {
         const {finished, stepIndex} = this.state;
         return(
             <div className="login-box margin-top-1">
+            <NotificationSystem ref="notification" className="notification" />
             <header>CREATE NEW ACCOUNT</header>
                     <Stepper activeStep={stepIndex} orientation="vertical">
                         <Step>
