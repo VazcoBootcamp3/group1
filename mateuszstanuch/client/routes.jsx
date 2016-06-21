@@ -8,6 +8,35 @@ import { ReportContainer } from '../containers/ReportContainer';
 import { HomeContainer } from '../containers/HomeContainer';
 import { GroupContainer } from  '../containers/GroupContainers';
 
+function checkLoggedIn (ctx, redirect) {
+    if (!Meteor.userId()) {
+        redirect('/')
+    }
+}
+
+function checkLoggedOut (ctx, redirect) {
+    if (Meteor.userId()) {
+        redirect('/')
+    }
+}
+
+// group of routes for logged in users
+var privateRoutes = FlowRouter.group({
+    name: 'private',
+    triggersEnter: [
+        checkLoggedIn
+    ]
+});
+
+// group of routes for non logged in users
+var beforeAuthRoutes = FlowRouter.group({
+    name: 'beforeAuthRoutes',
+    triggersEnter: [
+        checkLoggedOut
+    ]
+});
+
+// public routes
 FlowRouter.route("/", {
     name: 'Home',
     action () {
@@ -17,7 +46,8 @@ FlowRouter.route("/", {
     }
 });
 
-FlowRouter.route("/login", {
+// routes for non logged in users
+beforeAuthRoutes.route("/login", {
     name: 'Login',
     action () {
         mount(AppLayout, {
@@ -26,7 +56,7 @@ FlowRouter.route("/login", {
     }
 });
 
-FlowRouter.route("/register", {
+beforeAuthRoutes.route("/register", {
     name: 'Register',
     action () {
         mount(AppLayout, {
@@ -35,7 +65,8 @@ FlowRouter.route("/register", {
     }
 });
 
-FlowRouter.route("/group", {
+// routes for logged in
+privateRoutes.route("/group", {
     name: 'Group',
     action () {
         mount(AppLayout, {
@@ -44,7 +75,7 @@ FlowRouter.route("/group", {
     }
 });
 
-FlowRouter.route('/report', {
+privateRoutes.route('/report', {
     name: 'Report',
     action () {
         mount(AppLayout, {
@@ -53,7 +84,7 @@ FlowRouter.route('/report', {
     }
 });
 
-FlowRouter.route("/checkout", {
+privateRoutes.route("/checkout", {
     name: 'Checkout',
     action () {
         mount(AppLayout, {
@@ -62,6 +93,7 @@ FlowRouter.route("/checkout", {
     }
 });
 
+//
 FlowRouter.notFound = {
   action () {
       mount(AppLayout, {
