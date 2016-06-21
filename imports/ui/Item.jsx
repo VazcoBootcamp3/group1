@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Meteor} from 'meteor/meteor';
 import {createContainer}  from 'meteor/react-meteor-data';
+import {Session} from 'meteor/session'
 
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
@@ -82,31 +83,34 @@ export class Item extends Component {
 
 	_renderShareWith() {
 		return this.props.debts.map((value, key) => {
-			return(
-				<Avatar
-					key={key} 
-					className="item-avatar" 
-					size={40}
-	          		color={indigo900}
-	          		backgroundColor={blue300}>
-				{this.getUsername(value.debtor)[0]}
-				</Avatar>
-			);
-		});
+				Meteor.call('user.getById', value.debtor, (error, data) => {
+					Session.set('user', data);
+				});
+
+				return(
+					<Avatar
+						key={key} 
+						className="item-avatar" 
+						src={Session.get('user').profile.avatar}
+					/>
+				);
+		});	
 	}
 
 	_renderStillGuilty() {
 		return this.props.debts.map((value, key) => {
 			if(value.cost > 0)
+				Meteor.call('user.getById', value.debtor, (error, data) => {
+					Session.set('user', data);
+				});
+
 				return(
 					<Avatar
 						key={key} 
 						className="item-avatar" 
-						size={40}
-		          		color={indigo900}
-		          		backgroundColor={blue300}>
-					{this.getUsername(value.debtor)[0]}
-					</Avatar>
+						tooltip="tooltip"
+						src={Session.get('user').profile.avatar}
+					/>
 				);
 		});	
 	}

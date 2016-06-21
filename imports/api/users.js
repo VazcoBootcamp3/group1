@@ -11,4 +11,9 @@ Meteor.methods({
 		else
 			return false;
 	},
+
+	'user.getById'(userId) {
+		check(userId, String);
+		return Meteor.users.findOne({_id: userId});
+	}
 });
