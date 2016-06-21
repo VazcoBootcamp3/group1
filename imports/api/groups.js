@@ -8,10 +8,6 @@ Meteor.methods({
 	'groups.create'(name, creator) {
 		check(name, String);
 
-		if(!this.userId) {
-			throw new Meteor.Error('non-authorized');
-		}
-
 		Groups.insert({
 			name: name,
             creator: creator,
