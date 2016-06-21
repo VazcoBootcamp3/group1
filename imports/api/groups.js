@@ -15,6 +15,11 @@ Meteor.methods({
         });
 	},
 
+	'groups.getId'(name) {
+		check(name, String);
+		return Groups.findOne({name: name})._id;
+	},
+
 	'groups.exists'(name) {
 		check(name, String);
 

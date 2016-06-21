@@ -77,7 +77,8 @@ export class Register extends React.Component {
     _checkGroup(e, iic) {
         const checkBox = e.target;
         this.setState({
-            checkedGroup: checkBox.checked ? checkBox.value : '',
+            checkedId: checkBox.value,
+            checkedGroup: checkBox.checked ? checkBox.name : '',
             checked: checkBox.checked ? true : false, 
         });
     }
@@ -189,27 +190,33 @@ export class Register extends React.Component {
                 Meteor.call('groups.create', this.state.checkedGroup, userId);
                 this._notificationSuccess('Grupa ' + this.state.checkedGroup + ' zostala utworzona.');
             }
+            
+            Meteor.call('groups.getId', this.state.checkedGroup, (err, data) => {
+                if(data) {
+                    this.state.account.profile.group = data;
+
+                    Accounts.createUser(this.state.account, (error) => {
+                        if(error) {
+                            this._notificationError(error);
+                            return;
+                        }
+                        else {
+                            this._notificationSuccess('Your account has been created.');
+
+                            Meteor.loginWithPassword(this.state.account.username, this.state.account.password, (error) => {
+                                if(error) {
+                                    this._notificationError(error);
+                                    return;
+                                }
+                                else {
+                                    FlowRouter.go('App');
+                                }
+                            })
+                        }
+                    })
+                }
+            });
         });
-
-        Accounts.createUser(this.state.account, (error) => {
-            if(error) {
-                this._notificationError(error);
-                return;
-            }
-            else {
-                this._notificationSuccess('Your account has been created.');
-
-                Meteor.loginWithPassword(this.state.account.username, this.state.account.password, (error) => {
-                    if(error) {
-                        this._notificationError(error);
-                        return;
-                    }
-                    else {
-                        FlowRouter.go('App');
-                    }
-                })
-            }
-        })
     }
 
     render() {
@@ -288,7 +295,8 @@ export class Register extends React.Component {
                                         <ListItem
                                           leftCheckbox={
                                                         <Checkbox
-                                                            value={value.name} 
+                                                            value={value._id}
+                                                            name={value.name} 
                                                             onCheck={this._checkGroup.bind(this)}
                                                             checked={value.name === this.state.checkedGroup}
                                                         />
