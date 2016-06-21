@@ -5,7 +5,7 @@ import {check} from 'meteor/check';
 export const Groups = new Mongo.Collection('groups');
 
 Meteor.methods({
-	'groups.create'(name) {
+	'groups.create'(name, creator) {
 		check(name, String);
 
 		if(!this.userId) {
@@ -14,7 +14,7 @@ Meteor.methods({
 
 		Groups.insert({
 			name: name,
-            creator: Meteor.userId(),
+            creator: creator,
             createdAt: new Date(),
         });
 	},
