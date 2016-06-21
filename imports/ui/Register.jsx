@@ -116,13 +116,13 @@ export class Register extends React.Component {
             return;
         }
 
-        if(username.length < 6) {
-            this._notificationError('Username must be longer than 5 characters.');
+        if(username.length <= 3) {
+            this._notificationError('Username must be longer than 3 characters.');
             return;
         }
 
-        if(password.length < 6) {
-            this._notificationError('Password must be longer than 5 characters.');
+        if(password.length <= 3) {
+            this._notificationError('Password must be longer than 3 characters.');
             return;
         }
 
@@ -134,16 +134,6 @@ export class Register extends React.Component {
         if(!this._validatePhone(phone)) {
             this._notificationError('Phone number is incorrect.');
             return;
-        }
-
-        if(!avatar) {
-            this.setState({
-                account: {
-                    profile: {
-                        avatar: `https://api.adorable.io/avatars/128/${this.state.account.email}.png`,
-                    },
-                }, 
-            });
         }
 
         Meteor.call('user.exists', username, (error, result) => {
@@ -163,7 +153,8 @@ export class Register extends React.Component {
                                 email: email,
                                 profile: {
                                             phone: phone,
-                                            avatar: '',
+                                            avatar: avatar || `https://api.adorable.io/avatars/128/${email}.png`,
+                                            group: '',
                                          },
                              },  
                 });
@@ -178,16 +169,7 @@ export class Register extends React.Component {
             return;
         }
 
-        this.setState({
-            account: {
-                profile: {
-                    group: this.state.checkedGroup,
-                },
-            },
-        });
-
-        console.log(this.state.account.password);
-        console.log(typeof this.state.account.password);
+        this.state.account.profile.group = this.state.checkedGroup,
 
         this._nextStep();
     }
@@ -196,8 +178,6 @@ export class Register extends React.Component {
         e.preventDefault();
 
         const userId = Random.id();
-
-        console.log('meteor.call ...' + userId);
 
         Meteor.call('groups.exists', this.state.checkedGroup, (error, result) => {
             if(error) {
@@ -210,12 +190,6 @@ export class Register extends React.Component {
                 this._notificationSuccess('Grupa ' + this.state.checkedGroup + ' zostala utworzona.');
             }
         });
-
-
-        console.log(this.state.account.password);
-        console.log(typeof this.state.account.password);
-
-        console.log(this.state.account);
 
         Accounts.createUser(this.state.account, (error) => {
             if(error) {
