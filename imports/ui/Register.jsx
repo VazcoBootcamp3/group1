@@ -1,6 +1,6 @@
 import React from 'react';
 import {Random} from 'meteor/random';
-
+import {createContainer}  from 'meteor/react-meteor-data';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -13,9 +13,10 @@ import {List, ListItem} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 
 import '/imports/api/users.js';
+import {Groups} from '/imports/api/groups.js';
 
 
-export default class extends React.Component {
+export class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,9 +24,9 @@ export default class extends React.Component {
             stepIndex: 0,
             showPassword: false,
             account: {},
+            checkedGroup: '',
+            checked: false,
         }
-
-        this._renderStepActions = this._renderStepActions.bind(this);
     }
 
     _nextStep() {
@@ -49,37 +50,26 @@ export default class extends React.Component {
         });
     }
 
-    _renderStepActions(step) {
-        const {stepIndex} = this.state;
-
-        return (
-            <div className="login-btn-bar">
-                <RaisedButton
-                    label='Next'
-                    disableTouchRipple={true}
-                    disableFocusRipple={true}
-                    primary={true}
-                    onTouchTap={this._nextStep.bind(this)}
-                    className="login-btn"
-                />
-
-            {step > 0 && (
-                <FlatButton
-                    label="Back"
-                    disabled={stepIndex === 0}
-                    disableTouchRipple={true}
-                    disableFocusRipple={true}
-                    onTouchTap={this._prevStep.bind(this)}
-                />
-            )}
-            </div>
-        );
-    }
-
-
     _showPassword() {
         this.setState({
             showPassword: !this.state.showPassword,  
+        });
+    }
+
+    _checkGroup(e, iic) {
+        const checkBox = e.target;
+        this.setState({
+            checkedGroup: checkBox.checked ? checkBox.value : '',
+            checked: checkBox.checked ? true : false, 
+        });
+    }
+
+    _onEnterGroup() {
+        const groupInput = this.refs.group.getValue();
+
+        this.setState({
+            checkedGroup: groupInput || '',
+            checked: false, 
         });
     }
 
@@ -117,23 +107,24 @@ export default class extends React.Component {
                 this._nextStep();
             }
         });
-        
+    }
 
+    _handleStep2() {
+        // sprawdz wybrana grupe
+        if(!this.state.checkedGroup) {
+            alert('You must select group.');
+            return;
+        }
+
+        // przejdz dalej
+        this._nextStep();
     }
 
     _handleRegister(e) {
         e.preventDefault();
-/*
-        const username = this.refs.username.getValue();
-        const password = this.refs.password.getValue();
-        const email = this.refs.email.getValue();
-        const phone = this.refs.phone.getValue();
 
-        if(!username || !password || !email || !phone) {
-            alert("ERROR");
-            return;
-        }
-*/
+        //
+
         const groupName = this.refs.group;
         console.log(groupName);
 
@@ -210,30 +201,27 @@ export default class extends React.Component {
                                         className="login-btn"
                                     />
                                 </div> 
-                                
                             </StepContent>
                         </Step>
 
                         <Step>
-                            <StepLabel>Find group or create your own</StepLabel>
+                            <StepLabel>Find group</StepLabel>
                             <StepContent>
                                 <Subheader>Choose one from below:</Subheader>
                                 <List>
-                                    <ListItem
-                                      leftCheckbox={<Checkbox />}
-                                      primaryText="Notifications"
-                                      secondaryText="Allow notifications"
-                                    />
-                                    <ListItem
-                                      leftCheckbox={<Checkbox />}
-                                      primaryText="Sounds"
-                                      secondaryText="Hangouts message"
-                                    />
-                                    <ListItem
-                                      leftCheckbox={<Checkbox />}
-                                      primaryText="Video sounds"
-                                      secondaryText="Hangouts video call"
-                                    />
+                                    {this.props.groups.map((value, key) => (
+                                        <ListItem
+                                          leftCheckbox={
+                                                        <Checkbox
+                                                            value={value.name} 
+                                                            onCheck={this._checkGroup.bind(this)}
+                                                            checked={value.name === this.state.checkedGroup}
+                                                        />
+                                                       }
+                                          key={key}
+                                          primaryText={value.name}
+                                        />
+                                    ))}
                                 </List>
 
                                 <Subheader>or create your own:</Subheader>
@@ -242,9 +230,30 @@ export default class extends React.Component {
                                     floatingLabelText="Group name"
                                     fullWidth={true}
                                     ref="group"
+                                    value={this.state.checked ? '' : this.state.checkedGroup}
+                                    onChange={this._onEnterGroup.bind(this)}
                                 />
            
-                            {this._renderStepActions(1)}
+                                <div className="login-btn-bar">
+                                    <RaisedButton
+                                        label='Next'
+                                        disableTouchRipple={true}
+                                        disableFocusRipple={true}
+                                        primary={true}
+                                        className="login-btn"
+                                        onTouchTap={this._handleStep2.bind(this)}
+                                    />
+
+                                {this.state.stepIndex > 0 && (
+                                    <FlatButton
+                                        label="Back"
+                                        disabled={stepIndex === 0}
+                                        disableTouchRipple={true}
+                                        disableFocusRipple={true}
+                                        onTouchTap={this._prevStep.bind(this)}
+                                    />
+                                )}
+                                </div>
                             </StepContent>
                         </Step>
 
@@ -275,3 +284,9 @@ export default class extends React.Component {
     }
 
 }
+
+export default createContainer(() => {
+  return{
+    groups: Groups.find({}).fetch(),
+  };
+}, Register);
