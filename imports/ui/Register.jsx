@@ -23,7 +23,7 @@ export class Register extends React.Component {
             finished: false,
             stepIndex: 0,
             showPassword: false,
-            account: {},
+            account: {profile: {}},
             checkedGroup: '',
             checked: false,
         }
@@ -73,6 +73,16 @@ export class Register extends React.Component {
         });
     }
 
+    _validateEmail(email) {
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
+    _validatePhone(number) {
+        const re = /^[5-9]\d{8}$/;
+        return re.test(number);
+    }
+
     _handleStep1() {
         // ?
         //const {username, password, email, phone} = this.refs;
@@ -80,10 +90,42 @@ export class Register extends React.Component {
         const password = this.refs.password.getValue();
         const email = this.refs.email.getValue();
         const phone = this.refs.phone.getValue();
+        const avatar = this.refs.avatar.getValue();
+
 
         if(!username || !password || !email || !phone) {
             alert('You must fill the required fields.');
             return;
+        }
+
+        if(username.length < 6) {
+            alert('Username.length');
+            return;
+        }
+
+        if(password.length < 6) {
+            alert('Password.length');
+            return;
+        }
+
+        if(!this._validateEmail(email)) {
+            alert('This email is incorrect');
+            return;
+        }
+
+        if(!this._validatePhone(phone)) {
+            alert('Phone is incorrect');
+            return;
+        }
+
+        if(!avatar) {
+            this.setState({
+                account: {
+                    profile: {
+                        avatar: `https://api.adorable.io/avatars/128/${this.state.account.email}.png`,
+                    },
+                }, 
+            });
         }
 
         Meteor.call('user.exists', username, (error, result) => {
@@ -101,7 +143,10 @@ export class Register extends React.Component {
                                 username: username,
                                 password: password,
                                 email: email,
-                                phone: phone,
+                                profile: {
+                                            phone: phone,
+                                            avatar: '',
+                                         },
                              },  
                 });
                 this._nextStep();
@@ -110,40 +155,59 @@ export class Register extends React.Component {
     }
 
     _handleStep2() {
-        // sprawdz wybrana grupe
         if(!this.state.checkedGroup) {
             alert('You must select group.');
             return;
         }
 
-        // przejdz dalej
+        this.setState({
+            account: {
+                profile: {
+                    group: this.state.checkedGroup,
+                },
+            },
+        });
+
         this._nextStep();
     }
 
     _handleRegister(e) {
         e.preventDefault();
 
-        //
-
-        const groupName = this.refs.group;
-        console.log(groupName);
-
-        if(!groupName) {
-            alert("GROUP ERROR");
-            return;
-        }
-
-        let userId = Random.id();
+        const userId = Random.id();
 
         console.log('meteor.call ...' + userId);
 
-        Meteor.call('groups.create', groupName, userId, (error, result) => {
-            if(error) console.log(error);
-            if(result) console.log(result);
+        Meteor.call('groups.exists', this.state.checkedGroup, (error, result) => {
+            if(error) {
+                alert(error);
+                return;
+            }
+
+            if(!result) {
+                Meteor.call('groups.create', this.state.checkedGroup, userId);
+                alert('Grupa ' + this.state.checkedGroup + ' zostala utworzona.');
+            }
         });
 
-
-
+        Accounts.createUser(this.state.account, (error) => {
+            if(error) {
+                alert('Cos poszlo nie tak...');
+                return;
+            }
+            else {
+                alert('Witamy na pokladzie...');
+                Meteor.loginWithPassword(this.state.account.username, this.state.account.password, (error) => {
+                    if(error) {
+                        alert('Problemy z logowaniem...');
+                        return;
+                    }
+                    else {
+                        FlowRouter.go('App');
+                    }
+                })
+            }
+        })
     }
 
     render() {
@@ -187,8 +251,16 @@ export class Register extends React.Component {
                                         floatingLabelText="Phone number"
                                         fullWidth={true}
                                         ref="phone"
-                                        defaultValue={this.state.account.phone}
+                                        defaultValue={this.state.account.profile.phone}
                                     />
+                                    
+                                    <TextField
+                                        floatingLabelText="Avatar URL (optional)"
+                                        fullWidth={true}
+                                        ref="avatar"
+                                        defaultValue={this.state.account.profile.avatar}
+                                    />
+
                                 </div>
 
                                 <div className="login-btn-bar">
