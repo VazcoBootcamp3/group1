@@ -19,4 +19,13 @@ Meteor.methods({
         });
 	},
 
+	'groups.exists'(name) {
+		check(name, String);
+
+		if(Groups.findOne({name: name}))
+			return true;
+		else
+			return false;
+	},
+
 });
