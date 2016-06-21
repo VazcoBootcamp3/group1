@@ -52,3 +52,11 @@ FlowRouter.route('/register', {
 		});
 	}
 });
+
+// temporary
+FlowRouter.route('/logout', {
+	action() {
+		Meteor.logout();
+		FlowRouter.go('Login');
+	}
+});

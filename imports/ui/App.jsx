@@ -12,7 +12,6 @@ import ShoppingList from '/imports/ui/ShoppingList';
 import Report       from '/imports/ui/Report';
 import Item         from '/imports/ui/Item';
 import Login        from '/imports/ui/Login';
-import AccountsUIWrapper from '/imports/ui/AccountsUIWrapper';
 
 // mongo
 import {Items}      from '/imports/api/items.js';
@@ -67,7 +66,6 @@ class App extends React.Component {
     render() {
       return(
         <div>
-          <AccountsUIWrapper />
           {this.state.menu()}
         </div>
       );

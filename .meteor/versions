@@ -1,7 +1,5 @@
 accounts-base@1.2.7
 accounts-password@1.1.10
-accounts-ui@1.1.9
-accounts-ui-unstyled@1.1.12
 allow-deny@1.0.5
 autopublish@1.0.7
 autoupdate@1.2.10
@@ -39,7 +37,6 @@ insecure@1.0.7
 jquery@1.11.9
 kadira:flow-router@2.12.1
 launch-screen@1.0.12
-less@2.6.1
 livedata@1.0.18
 localstorage@1.0.11
 logging@1.0.13
@@ -68,7 +65,6 @@ reload@1.1.9
 retry@1.0.8
 routepolicy@1.0.11
 service-configuration@1.0.10
-session@1.1.6
 sha@1.0.8
 spacebars@1.0.12
 spacebars-compiler@1.0.12
@@ -76,7 +72,6 @@ srp@1.0.9
 standard-minifier-css@1.0.7
 standard-minifier-js@1.0.7
 static-html@1.0.8
-templating@1.1.10
 templating-tools@1.0.4
 tmeasday:check-npm-versions@0.2.0
 tracker@1.0.14
