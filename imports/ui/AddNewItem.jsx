@@ -1,50 +1,34 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
-
-import { FlatMates } from '../api/users';
-
+import UserSelect from './UserSelect';
 
 export default class AddNewItem extends Component {
 
-  getDebtor(debtor) {
-    debtorUser = Meteor.users.findOne({username: debtor});
-    if (debtor.toLowerCase() === 'all') {
-      return debtor.toLowerCase();
+  constructor(...args) {
+      super(...args);
+      this.state = {
+        selectedUser: '0',
+      };
     }
-    else if (debtorUser) {
-      return debtorUser.username;
-    }
-    else {
-      return false;
-    }
-  }
-
-  // validateContractor(contractor) {
-  //   if (Meteor.users.findOne({nick: contractor})) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 
   handleNewItemSubmit(e) {
       e.preventDefault();
 
       const productsList = this.refs.productsListInput.value.trim();
       const money = parseFloat(parseFloat(this.refs.moneyInput.value.trim()).toFixed(2));
-      const debtor = this.refs.debtorInput.value.trim();
+      const debtor = this.state.selectedUser;
       if (productsList.length < 3) {
         Materialize.toast("Podaj jakie produkty kupiłeś", 2000);
       }
       else {
-        var debtorOrDebtors = this.getDebtor(debtor);
-        if (!debtorOrDebtors) {
-          Materialize.toast("Nie mamy takiego współlokatora - sprawdz listę na dole strony lub dodaj nowego :)", 2000);
+        if (debtor === "0") {
+          Meteor.call("costItems.insert", productsList, money, 'all')
         }
         else {
-          Meteor.call("costItems.insert", productsList, money, debtorOrDebtors);
+          const debtorUsername = Meteor.users.findOne({_id: debtor}).username;
+          Meteor.call("costItems.insert", productsList, money, debtorUsername);
           this.refs.productsListInput.value = '';
           this.refs.moneyInput.value = '';
-          this.refs.debtorInput.value = '';
           Materialize.toast("Dodano zakupy - patrz 'Raport'", 5000);
         }
 
@@ -52,12 +36,6 @@ export default class AddNewItem extends Component {
     }
 
     getUserSelectValues(withAll) {
-      // TODO
-      // Dużo wydajniej jest iterować po kursorze z mongo:
-      //
-      // const users = Users.find().map(function (user) {
-      //     return {value: user.nick, label: user.nick};
-      //     });
       let options = [];
       if (withAll) {
         options.push({value: 'all', label: 'all'});
@@ -69,19 +47,39 @@ export default class AddNewItem extends Component {
       return options;
     }
 
+    renderUserSelect() {
+      const loggedUser =  Meteor.user();
+      if (loggedUser) {
+        const loggedUserGroup = loggedUser.profile.group;
+        let filteredUsers = Meteor.users.find({}).fetch();
+        filteredUsers = filteredUsers.filter(user => user.profile.group === loggedUserGroup && user._id !== loggedUser._id);
+        return filteredUsers.map((user) => (<UserSelect key={user._id} user={user} />));
+      }
+    }
+
+
+    handleUserSelectChange(e) {
+      this.setState({
+        selectedUser: e.target.value,
+      });
+    }
+
   render() {
     return (
       <div className="new-cost-item-form">
         <form className="card-panel center col s6" onSubmit={e => this.handleNewItemSubmit(e)}>
           <div className="row">
-            <div className="input-field col s12">
+            <div className="input-field col s10">
               <input placeholder="Lista produktów" id="productsList" ref="productsListInput" type="text"/>
             </div>
             <div className="input-field col s2">
               <input placeholder="Kwota zakupów" id="moneyOwned" ref="moneyInput" type="text"/>
             </div>
-            <div className="input-field col s4">
-              <input placeholder="Dla kogo? Wpisz: all lub nick osoby" id="debtor" ref="debtorInput" type="text"/>
+            <div className="input-field col s8">
+              <select onChange={e => this.handleUserSelectChange(e)} className="browser-default">
+                <option value='0'>Wszyscy</option>
+                {this.renderUserSelect()}
+              </select>
             </div>
             <div className="col s3">
               <button className="teal darken-4 btn waves-effect waves-light" type="submit" onClick={e => this.handleNewItemSubmit(e)}>Dodaj</button>

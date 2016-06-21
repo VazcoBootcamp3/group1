@@ -4,10 +4,8 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import CostItems from '../api/costItems';
-import { FlatMates } from '../api/users';
 
 import AddNewItem from './AddNewItem';
-import AddNewUser from './AddNewUser';
 import User from './User';
 import CostItem from './CostItem';
 import Header from './Header';
@@ -62,7 +60,6 @@ class App extends Component {
     this.setState({
         hidePayedItems: !this.state.hidePayedItems,
       });
-    // $('.items-list').toggle();
   }
 
   render() {

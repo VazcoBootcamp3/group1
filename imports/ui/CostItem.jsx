@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 
-import { FlatMates } from '../api/users';
 
 export default class Item extends Component {
 
@@ -20,12 +19,6 @@ export default class Item extends Component {
     }
     else {
       Materialize.toast("Tylko ten który zapłacił za zakupy może zaznaczyć task jako zapłacony :)", 4000);
-    }
-  }
-
-  renderItemText() {
-    if (this.isItemForAllFlatmates()) {
-
     }
   }
 

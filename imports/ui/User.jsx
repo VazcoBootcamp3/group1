@@ -11,6 +11,6 @@ export default class User extends Component {
   }
 };
 
-// User.propTypes = {
-//     users: PropTypes.object.isRequired,
-//   };
+User.propTypes = {
+    user: PropTypes.object.isRequired,
+  };

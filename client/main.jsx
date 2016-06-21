@@ -10,7 +10,6 @@ import LoginUser from '../imports/ui/LoginUser';
 import Header from '../imports/ui/Header';
 
 import CostItems from '../imports/api/costItems';
-import { FlatMates } from '../imports/api/users';
 
 
 Meteor.startup(() => {

@@ -4,7 +4,6 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
 import App from '../ui/App.jsx';
-import { FlatMates } from '../api/users';
 
 const CostItems = new Mongo.Collection('costItems');
 
