@@ -127,7 +127,7 @@ export class Item extends Component {
 			      subtitle={
 			      	<span>has spent {this.props.item.totalCost} zł on {this.props.item.date ? this.props.item.date.toDateString() : ''}</span>
 			      }
-			      avatar="http://www.mpcforum.pl/uploads/profile/photo-1435795.jpg?_r=1443620809"
+			      avatar={Meteor.user().profile.avatar}
 			      actAsExpander={true}
 			      showExpandableButton={true}
 			    />
