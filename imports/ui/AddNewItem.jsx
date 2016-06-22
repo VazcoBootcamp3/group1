@@ -27,11 +27,10 @@ export default class AddNewItem extends Component {
         else {
           const debtorUsername = Meteor.users.findOne({_id: debtor}).username;
           Meteor.call("costItems.insert", productsList, money, debtorUsername);
-          this.refs.productsListInput.value = '';
-          this.refs.moneyInput.value = '';
-          Materialize.toast("Dodano zakupy - patrz 'Raport'", 5000);
         }
-
+        this.refs.productsListInput.value = '';
+        this.refs.moneyInput.value = '';
+        Materialize.toast("Dodano zakupy - patrz 'Raport'", 5000);
       }
     }
 

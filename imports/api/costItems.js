@@ -18,16 +18,37 @@ Meteor.methods({
     var day = date.getUTCDate();
     var year = date.getUTCFullYear();
     var formatedDate = day + "/" + month + "/" + year;
-
-    CostItems.insert({
-      productsList,
-      moneyOwned,
-      contractor: Meteor.user().username,
-      group: Meteor.user().profile.group,
-      debtor,
-      isPayed: false,
-      createdAt: formatedDate,
-    });
+    if (debtor === 'all') {
+      const loggedUser =  Meteor.user();
+      const loggedUserGroup = loggedUser.profile.group;
+      const userInGroupCount = Meteor.users.find({"profile.group": loggedUserGroup}).count();
+      let filteredUsers = Meteor.users.find({}).fetch();
+      filteredUsers = filteredUsers.filter(user => user.profile.group === loggedUserGroup && user._id !== loggedUser._id);
+      moneyOwned = moneyOwned / userInGroupCount;
+      CostItems.remove({});
+      for (var user in filteredUsers) {
+        CostItems.insert({
+          productsList,
+          moneyOwned,
+          contractor: Meteor.user().username,
+          group: Meteor.user().profile.group,
+          debtor: filteredUsers[user].username,
+          isPayed: false,
+          createdAt: formatedDate,
+        });
+      }
+    }
+    else {
+      CostItems.insert({
+        productsList,
+        moneyOwned,
+        contractor: Meteor.user().username,
+        group: Meteor.user().profile.group,
+        debtor,
+        isPayed: false,
+        createdAt: formatedDate,
+      });
+    }
   },
   'costItems.setPayed'(itemId, setPayed) {
     check(itemId, String);
