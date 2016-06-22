@@ -1,0 +1,56 @@
+/* CSS declarations go here */
+.container {
+  margin: auto;
+}
+
+h1 {
+  padding-top: 3px;
+  font-size: 22px;
+  text-align: center;
+  font-family: Impact, serif;
+  color: #004d40;
+}
+
+h5, h3 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #004d40;
+}
+
+h3 {
+  font-size: 18px;
+  text-align: center;
+}
+
+::-webkit-input-placeholder, select {
+    color: #004d40 !important;
+    opacity: 0.85;
+}
+
+.header-title {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.items-list, .hide-payed {
+  display: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.checked {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+div.checked {
+  display: none;
+}
+
+img {
+  float: left;
+}
+
+.input-field {
+  margin: 0px;
+}
