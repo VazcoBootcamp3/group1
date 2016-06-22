@@ -15,21 +15,15 @@ class App extends Component {
 
   constructor(...args) {
       super(...args);
-      this.state = {
-        hidePayedItems: true,
-      };
     }
 
-  renderCostItems() {
+  renderReport() {
     const loggedUser =  Meteor.user();
     if (loggedUser) {
       const loggedUserGroup = loggedUser.profile.group;
-      let filteredItems = this.props.costItems;
-      filteredItems = filteredItems.filter(item => item.group === loggedUserGroup);
-      if (this.state.hidePayedItems) {
-        filteredItems = filteredItems.filter(item => !item.isPayed);
-      }
-      return filteredItems.map((item) => (<CostItem key={item._id} item={item} />));
+      let filteredUsers = this.props.users;
+      filteredUsers = filteredUsers.filter(user => user.profile.group === loggedUserGroup);
+      return filteredUsers.map((user) => (<CostItem key={user._id} user={user}/>));
     }
   }
 
@@ -53,13 +47,6 @@ class App extends Component {
   handleListToggle(e) {
     e.preventDefault();
     $('.items-list').toggle();
-    $('.hide-payed').toggle();
-  }
-
-  handlePayedItemsToggle(e) {
-    this.setState({
-        hidePayedItems: !this.state.hidePayedItems,
-      });
   }
 
   render() {
@@ -75,7 +62,7 @@ class App extends Component {
         onClick={e => this.handlePayedItemsToggle(e)}>Wszystkie</button>
       </div>
       <ul className="items-list collapsible" data-collapsible="accordion">
-          {this.renderCostItems()}
+          {this.renderReport()}
       </ul>
       <div className="card-panel"><strong>Współlokatorzy: </strong>{this.renderUsers()}</div>
     </div>

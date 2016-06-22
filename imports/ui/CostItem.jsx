@@ -1,50 +1,60 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
-
+import CostItems from '../api/costItems';
 
 export default class Item extends Component {
 
-  setItemPayed(e) {
-    if (Meteor.user().username === this.props.item.contractor) {
-      if (!this.props.item.isPayed) {
-        Meteor.call('costItems.setPayed', this.props.item._id, true);
-      }
-      else {
-        Meteor.call('costItems.setPayed', this.props.item._id, false);
-      }
-    }
-    else {
-      Materialize.toast("Tylko ten który zapłacił za zakupy może zaznaczyć task jako zapłacony :)", 4000);
+  setDebtPayed(e) {
+    const items = CostItems.find({debtor: this.props.user.username}).fetch();
+    for (var i in items) {
+      Meteor.call('costItems.setPayed', items[i]._id, true);
     }
   }
 
+  calculateUserDebtorLoan(userId, calculateLoan=false) {
+    const user = Meteor.users.findOne({_id: userId});
+    let items;
+    if (!calculateLoan) {
+      items = CostItems.find({debtor: user.username}).fetch();
+    }
+    else {
+      items = CostItems.find({contractor: user.username}).fetch();
+    }
+    let debt = 0;
+    for (var i in items) {
+        if (!items[i].isPayed) {
+          debt += items[i].moneyOwned;
+        }
+      }
+    return debt;
+  }
+
+  isLoggedUser() {
+    return this.props.user.username === Meteor.user().username;
+  }
+
   render() {
-    const loggedUser = Meteor.user();
-    const loggedUserGroup = loggedUser.profile.group;
-    const usersInGroup = Meteor.users.find({"profile.group": loggedUserGroup})
-    const userCount = usersInGroup.count();
-    const totalMoney = this.props.item.moneyOwned;
-    const itemClassName = this.props.item.isPayed ? 'checked' : '';
-    let itemDebt = this.props.item.moneyOwned;
     return (
-      <li key={this.props.item._id}  className="text teal-text text-darken-4">
+      <li key={this.props.user._id}  className="text teal-text text-darken-4">
         <div className="collapsible-header">
-          <span className={itemClassName}>Zakupy z dnia: {this.props.item.createdAt},
-           Płaci: {this.props.item.debtor}: {itemDebt} PLN. <span>Do zwrotu dla: {this.props.item.contractor}</span>
-           </span>
+          {this.isLoggedUser() ?
+          <span>Powinienem otrzymać: {this.calculateUserDebtorLoan(this.props.user._id, true)} PLN</span>
+          :
+          <span>{this.props.user.username}: {this.calculateUserDebtorLoan(this.props.user._id)} PLN</span>
+          }
         </div>
         <div className="collapsible-body white">
-            <p className={itemClassName}>Zakupy: {this.props.item.productsList}</p>
-            <div className={itemClassName}>
-            <p><a onClick={e => this.setItemPayed(e)} className="waves-effect waves-teal teal darken-3  btn">Uregulowano</a>
+          {this.isLoggedUser() ?
+            <p></p>
+            : <p><a onClick={e => this.setDebtPayed(e)} className="waves-effect waves-teal teal darken-3  btn">Uregulowano</a>
             </p>
-            </div>
-          </div>
+          }
+        </div>
       </li>
   )
   }
 };
 
 Item.propTypes = {
-  item: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };

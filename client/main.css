@@ -22,7 +22,7 @@ h3 {
   text-align: center;
 }
 
-::-webkit-input-placeholder {
+::-webkit-input-placeholder, select {
     color: #004d40 !important;
     opacity: 0.85;
 }

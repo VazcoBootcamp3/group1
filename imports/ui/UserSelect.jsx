@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 export default class UserSelect extends Component {
 
 render() {
-  return <option value={this.props.user._id}>{this.props.user.username}</option>
+  return <option value={this.props.user._id}>Zakup dla: {this.props.user.username}</option>
 }
 
 }

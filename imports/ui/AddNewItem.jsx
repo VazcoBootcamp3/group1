@@ -76,7 +76,7 @@ export default class AddNewItem extends Component {
             </div>
             <div className="input-field col s8">
               <select onChange={e => this.handleUserSelectChange(e)} className="browser-default">
-                <option value='0'>Wszyscy</option>
+                <option value='0'>Zakup dla: wszyscy</option>
                 {this.renderUserSelect()}
               </select>
             </div>

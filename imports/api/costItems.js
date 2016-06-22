@@ -24,8 +24,7 @@ Meteor.methods({
       const userInGroupCount = Meteor.users.find({"profile.group": loggedUserGroup}).count();
       let filteredUsers = Meteor.users.find({}).fetch();
       filteredUsers = filteredUsers.filter(user => user.profile.group === loggedUserGroup && user._id !== loggedUser._id);
-      moneyOwned = moneyOwned / userInGroupCount;
-      CostItems.remove({});
+      moneyOwned = parseFloat((moneyOwned / userInGroupCount).toFixed(2));
       for (var user in filteredUsers) {
         CostItems.insert({
           productsList,
