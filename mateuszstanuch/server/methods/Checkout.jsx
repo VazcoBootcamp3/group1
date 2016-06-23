@@ -45,6 +45,7 @@ Meteor.methods({
             indebtedGroup: indebtedGroup,
             price: price,
             products: products,
+            paid: false,
         });
 
 

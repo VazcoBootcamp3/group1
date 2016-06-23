@@ -1,7 +1,3 @@
-/*
-    This Collection contains history about shoppings
- */
-
 const ShoppingList = new UniCollection('shoppings');
 
 ShoppingList.setSchema(new SimpleSchema({
@@ -22,6 +18,9 @@ ShoppingList.setSchema(new SimpleSchema({
         type: String,
         max: 300
     },
+    paid: {
+        type: Boolean
+    }
 }));
 
 export default ShoppingList;

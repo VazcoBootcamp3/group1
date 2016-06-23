@@ -7,16 +7,18 @@ import React from 'react';
 const getSummary = (shoppings) => {
     let shoppingsDict = {};
     for(let s of shoppings) {
-        if(s.buyer in shoppingsDict) {
-            shoppingsDict[s.buyer] += s.price;
-        } else {
-            shoppingsDict[s.buyer] = s.price;
-        }
+        if( ! s.paid ) {
+            if (s.buyer in shoppingsDict) {
+                shoppingsDict[s.buyer] += s.price;
+            } else {
+                shoppingsDict[s.buyer] = s.price;
+            }
 
-        if(s.indebted in shoppingsDict) {
-            shoppingsDict[s.indebted] -= s.price;
-        } else {
-            shoppingsDict[s.indebted] = s.price;
+            if (s.indebted in shoppingsDict) {
+                shoppingsDict[s.indebted] -= s.price;
+            } else {
+                shoppingsDict[s.indebted] = -s.price;
+            }
         }
     }
 
@@ -31,7 +33,6 @@ const getSummary = (shoppings) => {
     return shoppingsSummary;
 };
 
-
 const ReportItem = (props) => {
     return (
             <div className="col s12 m6">
@@ -43,13 +44,24 @@ const ReportItem = (props) => {
                         </p>
                     </div>
                     <div className="card-action">
-                        <a href="#not-implemented-yet">Ureguluj</a>
-                        <a href="#not-implemented-yet">Pokaż historię zakupów</a>
+                        <a href="#!" onClick={() => { settleDebt(props.info.id) }}>Ureguluj</a>
+                        <a href="#!">Pokaż historię zakupów</a>
                     </div>
                 </div>
             </div>
     );
 };
+
+function settleDebt (id) {
+    console.log('settle a debt beetwen you and ' + id + ' ' + Meteor.userId());
+    Meteor.call( 'report.settle', {secondUser: id}, (err, res) => {
+        if(err) {
+            Materialize.toast(err.reason, 4000);
+        } else {
+            Materialize.toast(res, 4000);
+        }
+    });
+}
 
 const Report = (props) => {
     return (
