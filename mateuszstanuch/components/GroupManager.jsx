@@ -6,7 +6,7 @@ const GroupItem = (props) => {
     return (
         <li className="collection-item">{props.groupname}</li>
     );
-}
+};
 
 const GroupManager = (props) => {
     return (
