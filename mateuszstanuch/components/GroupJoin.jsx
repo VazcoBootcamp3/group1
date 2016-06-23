@@ -1,47 +1,44 @@
 import React from 'react/react';
 
-export default class GroupJoin extends React.Component {
-    constructor (...args) {
-        super(...args);
-        
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-    
-    onSubmit (e) {
-        e.preventDefault();
-        let groupName = this.refs.groupName.value;
-        let userId = Meteor.userId();
+function onSubmit (e) {
+    e.preventDefault();
 
-        if(groupName == '') {
-            Materialize.toast("Uzupełnij nazwę grupy", 4000);
-        } else {
-            Meteor.call('groups.createOrJoin', {
-                groupName: groupName,
-                userId: userId
-            }, (err, res) => {
-                if (err) {
-                    Materialize.toast(err.reason, 4000);
-                } else {
-                    Materialize.toast(res, 4000);
+    const form = e.target;
 
-                    // clear value of refs
-                    this.refs.groupName.value = '';
-                }
-            })
-        }
-    }
+    let groupName = form.querySelector('[name=groupName]').value;
+    let userId = Meteor.userId();
 
-    render () {
-        return (
-                <div className="row">
-                    <h4>Utwórz lub dołącz do grupy</h4>
-                    <form className="col offset-s3 s6" onSubmit={this.onSubmit}>
-                        <div className="input-field col s12">
-                            <input type="text" placeholder="Nazwa grupy" ref="groupName" />
-                        </div>
-                        <button className="waves-effect waves-light btn-large">Utwórz lub Dołącz</button>
-                    </form>
-                </div>
-            );
+    if(groupName == '') {
+        Materialize.toast("Uzupełnij nazwę grupy", 4000);
+    } else {
+        Meteor.call('groups.createOrJoin', {
+            groupName: groupName,
+            userId: userId
+        }, (err, res) => {
+            if (err) {
+                Materialize.toast(err.reason, 4000);
+            } else {
+                Materialize.toast(res, 4000);
+
+                // clear value of text field
+                form.querySelector('[name=groupName]').value = '';
+            }
+        })
     }
 }
+
+const GroupJoin = (props) => {
+    return (
+        <div className="row">
+            <h4>Utwórz lub dołącz do grupy</h4>
+            <form className="col offset-s3 s6" onSubmit={onSubmit}>
+                <div className="input-field col s12">
+                    <input type="text" placeholder="Nazwa grupy" name="groupName" />
+                </div>
+                <button className="waves-effect waves-light btn-large">Utwórz lub Dołącz</button>
+            </form>
+        </div>
+    );
+};
+
+export default GroupJoin;
