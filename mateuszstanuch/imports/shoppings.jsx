@@ -4,7 +4,13 @@ ShoppingList.setSchema(new SimpleSchema({
     buyer: {
         type: String
     },
+    buyerName: {
+        type: String
+    },
     indebted: {
+        type: String
+    },
+    indebtedName: {
         type: String
     },
     indebtedGroup: {

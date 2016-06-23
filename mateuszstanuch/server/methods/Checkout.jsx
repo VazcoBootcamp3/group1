@@ -35,13 +35,18 @@ Meteor.methods({
                 'Błędna kwota');
         }
 
+        let buyerName = buyerId.username;
         buyerId = buyerId._id;
+
+        let indebtedName = indebtedId.username;
         indebtedId = indebtedId._id;
 
         // Insert debt into collection
         ShoppingList.insert({
             buyer: buyerId,
+            buyerName: buyerName,
             indebted: indebtedId,
+            indebtedName: indebtedName,
             indebtedGroup: indebtedGroup,
             price: price,
             products: products,
