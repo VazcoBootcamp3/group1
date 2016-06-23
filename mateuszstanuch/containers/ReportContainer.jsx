@@ -12,30 +12,36 @@ const getSummary = (shoppings) => {
 
     for(let s of shoppings) {
         if( ! s.paid ) {
-            if (s.buyer in shoppingsDict) {
-                shoppingsDict[s.buyer] += s.price;
-            } else {
-                shoppingsDict[s.buyer] = s.price;
-                usernames[s.buyer] = s.buyerName;
+            if(s.buyer !== currentUserId) {
+                // Somebody buys for current user
+                // Current user owed money - minus
+                if(s.buyer in shoppingsDict) {
+                    shoppingsDict[s.buyer] -= s.price;
+                } else {
+                    shoppingsDict[s.buyer] = -s.price;
+                    usernames[s.buyer] = s.buyerName;
+                }
             }
-
-            if (s.indebted in shoppingsDict) {
-                shoppingsDict[s.indebted] -= s.price;
-            } else {
-                shoppingsDict[s.indebted] = -s.price;
-                usernames[s.indebted] = s.indebtedName;
+            if(s.indebted !== currentUserId) {
+                if(s.indebted in shoppingsDict) {
+                    shoppingsDict[s.indebted] += s.price;
+                } else {
+                    shoppingsDict[s.indebted] = +s.price;
+                    usernames[s.indebted] = s.buyerName;
+                }
             }
         }
     }
 
     let shoppingsSummary = [];
     for(let key in shoppingsDict) {
-        if( key === currentUserId ) continue;
+        const balance = shoppingsDict[key];
+        if(balance === 0) continue;
 
         shoppingsSummary.push({
             id: key,
             name: usernames[key],
-            balance: shoppingsDict[key],
+            balance: balance,
         });
     }
 
