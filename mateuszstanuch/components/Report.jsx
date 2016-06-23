@@ -1,45 +1,5 @@
 import React from 'react';
 
-// TODO get username instead of _id
-// TODO shopping history
-
-const getSummary = (shoppings) => {
-    let shoppingsDict = {};
-    let usernames = {};
-    let currentUserId = Meteor.userId();
-
-    for(let s of shoppings) {
-        if( ! s.paid ) {
-            if (s.buyer in shoppingsDict) {
-                shoppingsDict[s.buyer] += s.price;
-            } else {
-                shoppingsDict[s.buyer] = s.price;
-                usernames[s.buyer] = s.buyerName;
-            }
-
-            if (s.indebted in shoppingsDict) {
-                shoppingsDict[s.indebted] -= s.price;
-            } else {
-                shoppingsDict[s.indebted] = -s.price;
-                usernames[s.indebted] = s.indebtedName;
-            }
-        }
-    }
-
-    let shoppingsSummary = [];
-    for(let key in shoppingsDict) {
-        if( key === currentUserId ) continue;
-        
-        shoppingsSummary.push({
-            id: key,
-            name: usernames[key],
-            balance: shoppingsDict[key],
-        });
-    }
-
-    return shoppingsSummary;
-};
-
 const ReportItem = (props) => {
     return (
             <div className="col s12 m6">
@@ -73,7 +33,7 @@ const Report = (props) => {
         <div className="row">
                 <h3>Podsumowanie</h3>
                 {
-                    (getSummary(props.shoppings))
+                    (props.shoppings)
                         .map((shopping, k) => <ReportItem key={k} info={shopping} /> )
                 }
         </div>
