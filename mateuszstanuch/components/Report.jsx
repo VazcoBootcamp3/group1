@@ -6,6 +6,8 @@ import React from 'react';
 const getSummary = (shoppings) => {
     let shoppingsDict = {};
     let usernames = {};
+    let currentUserId = Meteor.userId();
+
     for(let s of shoppings) {
         if( ! s.paid ) {
             if (s.buyer in shoppingsDict) {
@@ -26,6 +28,8 @@ const getSummary = (shoppings) => {
 
     let shoppingsSummary = [];
     for(let key in shoppingsDict) {
+        if( key === currentUserId ) continue;
+        
         shoppingsSummary.push({
             id: key,
             name: usernames[key],
