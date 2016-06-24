@@ -35,8 +35,16 @@ const getSummary = (shoppings) => {
 
     let shoppingsSummary = [];
     for(let key in shoppingsDict) {
-        const balance = shoppingsDict[key];
-        if(balance === 0) continue;
+        let balance = shoppingsDict[key];
+
+        if(balance < 0) {
+            balance = 'Jesteś winien: ' + balance;
+        } else if (balance > 0) {
+            balance = 'Otrzymasz: ' + balance;
+        } else {
+            // Balance equals zero - no one has a debt
+            continue;
+        }
 
         shoppingsSummary.push({
             id: key,
