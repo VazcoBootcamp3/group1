@@ -3,10 +3,7 @@ import GroupList from '/imports/groups';
 
 Meteor.methods({
     'groups.createOrJoin'({groupName, userId}) {
-        // TODO get from Mongo only required fields
-        // TODO DRY
         if(groupName === '' || userId === '') {
-            // TODO check if user exist ! (pub&sub ?)
             throw new Meteor.Error('groups.updateText.unauthorized',
                 'Nie jesteś zalogowany lub nie wypełniłeś wszystkich pól');
         }
@@ -71,5 +68,34 @@ Meteor.methods({
             });
         }
         return "Pomyślnie wykonano operacje :)";
-    }
+    },
+
+    'groups.leaveGroup'({groupId}) {
+        const userId = Meteor.userId();
+        const group = GroupList.findOne(groupId);
+
+        // remove user from group
+        group.update( {
+            $pull: {
+                users: userId
+            }
+        });
+
+        // has group any members ?
+        group.refresh();
+        if( group.users.length === 0) {
+            group.remove();
+        }
+
+        // remove group from user services
+        Meteor.users.update({
+            _id: userId,
+        }, {
+            $pull: {
+                'services.groups': groupId
+            }
+        });
+
+        return "Pomyślnie usunięto z grupy";
+    },
 });
