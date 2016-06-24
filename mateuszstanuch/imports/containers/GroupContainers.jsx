@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 
-import GroupList from '../imports/groups';
-import GroupManager from '../components/GroupManager'
+import GroupList from '/imports/groups';
+import GroupManager from '/imports/components/GroupManager'
 
 const composer = ( props, onData ) => {
     if( Meteor.subscribe('group-list').ready() ) {

@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
-import { composeWithTracker } from '../node_modules/react-komposer/index';
+import { composeWithTracker } from 'react-komposer';
 
-import Login from '../components/Login';
-import Register from '../components/Register';
-import NavMenu from '../components/NavMenu';
+import Login from '/imports/components/Login';
+import Register from '/imports/components/Register';
+import NavMenu from '/imports/components/NavMenu';
 
 const composer = ( props, onData ) => {
     let isLoggedIn = false;

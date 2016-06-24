@@ -1,6 +1,6 @@
 import { composeWithTracker } from 'react-komposer';
 
-import Hello from '../components/Hello';
+import Hello from '/imports/components/Hello';
 
 
 const composer = ( props, onData ) => {

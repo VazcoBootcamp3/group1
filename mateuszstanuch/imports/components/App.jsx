@@ -1,5 +1,5 @@
 import React from 'react/react';
-import { NavMenuContainer } from '../containers/AuthContainers';
+import { NavMenuContainer } from '/imports/containers/AuthContainers';
 
 const AppLayout = ( props ) => {
     return (

@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 
-import ShoppingList from '../imports/shoppings';
-import Report from '../components/Report';
+import ShoppingList from '/imports/shoppings';
+import Report from '/imports/components/Report';
 
 
 const getSummary = (shoppings) => {
