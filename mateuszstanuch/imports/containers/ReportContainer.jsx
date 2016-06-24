@@ -27,7 +27,7 @@ const getSummary = (shoppings) => {
                     shoppingsDict[s.indebted] += s.price;
                 } else {
                     shoppingsDict[s.indebted] = +s.price;
-                    usernames[s.indebted] = s.buyerName;
+                    usernames[s.indebted] = s.indebtedName;
                 }
             }
         }
