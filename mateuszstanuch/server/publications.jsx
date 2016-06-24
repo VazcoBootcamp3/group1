@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 
-import GroupList from '../imports/groups';
-import ShoppingList from '../imports/shoppings';
+import GroupList from '/imports/groups';
+import ShoppingList from '/imports/shoppings';
 
 Meteor.publish('group-list', function () {
     let currentUser = this.userId;

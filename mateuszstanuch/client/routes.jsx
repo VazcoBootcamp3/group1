@@ -1,12 +1,12 @@
 import React from 'react/react';
 import { mount } from 'react-mounter';
 
-import AppLayout from '../components/App';
-import { LoginContainer, RegisterContainer } from '../containers/AuthContainers';
-import Checkout from '../components/Checkout';
-import { ReportContainer } from '../containers/ReportContainer';
-import { HomeContainer } from '../containers/HomeContainer';
-import { GroupContainer } from  '../containers/GroupContainers';
+import AppLayout from '/imports/components/App';
+import { LoginContainer, RegisterContainer } from '/imports/containers/AuthContainers';
+import Checkout from '/imports/components/Checkout';
+import { ReportContainer } from '/imports/containers/ReportContainer';
+import { HomeContainer } from '/imports/containers/HomeContainer';
+import { GroupContainer } from  '/imports/containers/GroupContainers';
 
 function checkLoggedIn (ctx, redirect) {
     if (!Meteor.userId()) {

@@ -1,4 +1,4 @@
-import ShoppingList from '../../imports/shoppings';
+import ShoppingList from '/imports/shoppings';
 
 // TODO support groups
 

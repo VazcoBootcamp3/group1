@@ -1,4 +1,4 @@
-import ShoppingList from '../../imports/shoppings';
+import ShoppingList from '/imports/shoppings';
 
 Meteor.methods({
     'report.settle'({secondUser}) {

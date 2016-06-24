@@ -1,5 +1,5 @@
 
-import GroupList from '../../imports/groups';
+import GroupList from '/imports/groups';
 
 Meteor.methods({
     'groups.createOrJoin'({groupName, userId}) {
