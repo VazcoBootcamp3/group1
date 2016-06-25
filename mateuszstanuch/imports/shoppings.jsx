@@ -13,9 +13,6 @@ ShoppingList.setSchema(new SimpleSchema({
     indebtedName: {
         type: String
     },
-    indebtedGroup: {
-        type: String
-    },
     price: {
         type: Number,
         decimal: true

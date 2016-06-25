@@ -1,8 +1,5 @@
 import React from 'react';
 
-// TODO support groups
-// TODO autocomplete for usernames/groupnames
-
 function onSubmit (e) {
     e.preventDefault();
 
@@ -11,7 +8,6 @@ function onSubmit (e) {
     let shopping = {
         buyer: form.querySelector('[name=buyer]').value,
         indebted: form.querySelector('[name=indebted]').value,
-        indebtedGroup: 'not supported',
         products: form.querySelector('[name=products]').value,
         price: form.querySelector('[name=price]').value,
     };
@@ -37,6 +33,9 @@ function onSubmit (e) {
 const Checkout = (props) => {
     return (
         <div className="row">
+            <div>
+                <h5 className="center-align">Wpisz nazwę użytkownika, którego chcesz obciążyć lub 'group/nazwa-grupy', aby obciążyć całą grupę</h5>
+            </div>
             <form className="col s12" onSubmit={onSubmit}>
                 <div className="row">
                     <div className="input-field col s4">
