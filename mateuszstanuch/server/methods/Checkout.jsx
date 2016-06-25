@@ -6,7 +6,7 @@ Meteor.methods({
 
         if( buyer === indebted ) {
             throw new Meteor.Error('checkout.create.buyerIsIndebted',
-                'Kupujący powinien być dłużnikiem');
+                'Kupujący powinien nie być dłużnikiem');
         }
 
         // Looking for buyer in database
@@ -44,7 +44,7 @@ Meteor.methods({
             indebtedIds = Meteor.users.findOne({ username: indebted[0] });
 
             if(indebtedIds) // if found user
-                indebtedIds = [ indebtedIds._id ];
+                indebtedIds = [ indebtedIds._id, buyerId ];
         }
 
 

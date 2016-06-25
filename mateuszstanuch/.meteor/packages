@@ -25,3 +25,4 @@ accounts-base
 accounts-password
 aldeed:simple-schema
 universe:collection
+practicalmeteor:mocha
