@@ -55,6 +55,12 @@ Meteor.methods({
                 'Podany dłużnik nie istnieje');
         }
 
+        // Check if user is in group
+        if(indebtedIds.indexOf(buyerId) === -1) {
+            throw new Meteor.Error('checkout.create.notInGroup',
+                'Nie należysz do tej grupy.');
+        }
+
         // check if price is higher than 0
         if(price <= 0) {
             throw new Meteor.Error('checkout.create.priceIsLowerOrEqualZero',
