@@ -79,7 +79,7 @@ if( Meteor.isServer ) {
 
                 const buyer = Meteor.users.findOne({username: user3_name});
                 const indebted = 'group/'+groupName;
-                const price = 123.45;
+                const price = 123.20;
                 const products = 'Products...'
 
                 const shopping = {
@@ -100,7 +100,9 @@ if( Meteor.isServer ) {
                 assert.equal(result.buyerName, buyer.username);
                 assert.equal(result.indebted, Meteor.users.findOne({username: user2_name})._id);
                 assert.equal(result.indebtedName, user2_name);
-                assert.equal(result.price, price);
+                // in test group we have: user1, user2, user3 - 3 users
+                let cost_per_member = price / 3;
+                assert.equal(result.price, cost_per_member);
                 assert.equal(result.products, products);
             });
         });

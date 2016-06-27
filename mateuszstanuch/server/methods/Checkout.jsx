@@ -39,6 +39,9 @@ Meteor.methods({
             if(indebtedIds) // if found group
                 indebtedIds = indebtedIds.users;
 
+            // share costs
+            price = price / indebtedIds.length;
+
         } else {
             // get Id of single user
             indebtedIds = Meteor.users.findOne({ username: indebted[0] });
