@@ -10,7 +10,7 @@ function logout () {
             FlowRouter.go('Home');
         }
     })
-};
+}
 
 const NavMenu = ( props ) => {
     if( props.isLoggedIn ) {
