@@ -11,7 +11,7 @@ import {Tabs, Tab}  from 'material-ui/Tabs';
 import ShoppingList from '/imports/ui/ShoppingList';
 import Report       from '/imports/ui/Report';
 import Item         from '/imports/ui/Item';
-import Login        from '/imports/ui/Login';
+import LoginBox        from '/imports/ui/Login/LoginBox';
 
 // mongo
 import {Items}      from '/imports/api/items.js';

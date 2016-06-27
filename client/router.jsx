@@ -4,7 +4,7 @@ import {mount} from 'react-mounter';
 import {AppLayout} from '/client/main.jsx';
 
 import App from '/imports/ui/App.jsx';
-import Login from '/imports/ui/Login.jsx';
+import LoginBox from '/imports/ui/Login/LoginBox.jsx';
 import Register from '/imports/ui/Register.jsx';
 
 // material-ui
@@ -38,7 +38,7 @@ FlowRouter.route('/login', {
 	triggersEnter: [redirectIfLoggedIn],
 	action() {
 		mount(AppLayout, {
-			content: (<Login />)
+			content: (<LoginBox />)
 		});
 	}
 });
