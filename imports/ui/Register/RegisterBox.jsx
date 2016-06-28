@@ -80,28 +80,24 @@ export class RegisterBox extends React.Component {
             return;
         }
 
-        Meteor.call('user.exists', username, (error, result) => {
+        Meteor.call('user.exists', username, email, (error, result) => {
             if(error) {
                 this._notificationError(error);
                 return;
             }
 
             if(result === true) {
-                this._notificationError('Username ' + username + ' already exists.');
+                this._notificationError('Username or email is already taken.');
             }
             else {
                 this.setState({
-                    account: {
-                                username: username,
-                                password: password,
-                                email: email,
-                                profile: {
-                                            phone: phone,
-                                            avatar: avatar || `https://api.adorable.io/avatars/128/${email}.png`,
-                                            group: '',
-                                         },
-                             },  
+                    username: username,
+                    password: password,
+                    email: email,
+                    phone: phone,
+                    avatar: avatar || `https://api.adorable.io/avatars/128/${email}.png`,
                 });
+
                 this._notificationSuccess('OK. It looks good.\nNow you must choose the group.');
                 
                 // temporary bypass
@@ -119,38 +115,50 @@ export class RegisterBox extends React.Component {
             return;
         }
 
+        this.setState({
+            groupId: groupId,
+            groupName: groupName,  
+        });
+
         return true;
     }
 
-    _handleSummary(e) {
-        e.preventDefault();
-
+    _handleSummary() {
         const userId = Random.id();
 
-        Meteor.call('groups.exists', this.state.checkedGroup, (error, result) => {
+        Meteor.call('groups.exists', this.state.groupName, (error, result) => {
             if(error) {
                 this._notificationError(error);
                 return;
             }
 
             if(!result) {
-                Meteor.call('groups.create', this.state.checkedGroup, userId);
-                this._notificationSuccess('Grupa ' + this.state.checkedGroup + ' zostala utworzona.');
+                Meteor.call('groups.create', this.state.groupName, userId);
+                this._notificationSuccess('Group ' + this.state.groupName + ' has been created.');
             }
             
-            Meteor.call('groups.getId', this.state.checkedGroup, (err, data) => {
+            Meteor.call('groups.getId', this.state.groupName, (err, data) => {
                 if(data) {
-                    this.state.account.profile.group = data;
+                    const account = {
+                        username: this.state.username,
+                        password: this.state.password,
+                        email: this.state.email,
+                        profile: {
+                            phone: this.state.phone,
+                            avatar: this.state.avatar,
+                            group: data,
+                        },
+                    };
 
-                    Accounts.createUser(this.state.account, (error) => {
+                    Accounts.createUser(account, (error) => {
                         if(error) {
-                            this._notificationError(error);
+                            this._notificationError(error.reason);
                             return;
                         }
                         else {
                             this._notificationSuccess('Your account has been created.');
 
-                            Meteor.loginWithPassword(this.state.account.username, this.state.account.password, (error) => {
+                            Meteor.loginWithPassword(account.username, account.password, (error) => {
                                 if(error) {
                                     this._notificationError(error);
                                     return;
