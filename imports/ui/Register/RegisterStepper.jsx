@@ -47,7 +47,7 @@ class RegisterStepper extends React.Component {
                     	<RegisterStepperButtons 
 	                    	step={stepIndex}
 	                    	handlePrev={this._prevStep.bind(this)}
-	                    	handleNext={() => {this.props.handleNewAccount() && this._nextStep()}}
+	                    	handleNext={() => {this.props.handleNewAccount()}}
                     	/>
                     </StepContent>
                 </Step>

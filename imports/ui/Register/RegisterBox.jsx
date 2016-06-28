@@ -102,7 +102,10 @@ export class RegisterBox extends React.Component {
                                          },
                              },  
                 });
-                this._notificationSuccess('OK. It looks good.<br />Now you must choose the group.');
+                this._notificationSuccess('OK. It looks good.\nNow you must choose the group.');
+                
+                // temporary bypass
+                this.refs.RegisterStepper._nextStep();
             }
         });
         return true;
