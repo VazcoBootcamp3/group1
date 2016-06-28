@@ -113,7 +113,7 @@ export class Register extends React.Component {
 
 
         if(!username || !password || !email || !phone) {
-            alert('You must fill the required fields.');
+            this._notificationError('You must fill the required fields.');
             return;
         }
 
