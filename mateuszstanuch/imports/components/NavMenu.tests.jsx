@@ -4,8 +4,7 @@ import { shallow } from 'enzyme';
 import { assert, expect } from 'meteor/practicalmeteor:chai';
 import NavMenu from '/imports/components/NavMenu';
 
-if (!Meteor.isClient) {
-} else {
+if (Meteor.isClient) {
     describe('Navigation', () => {
         it('should show navigation for logged in user', () => {
             const isLoggedIn = true;
