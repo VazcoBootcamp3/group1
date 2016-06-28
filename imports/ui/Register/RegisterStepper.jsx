@@ -57,6 +57,7 @@ class RegisterStepper extends React.Component {
 					<StepContent>
 						<RegisterGroup 
 							ref="RegisterGroup"
+							groupsList={this.props.groupsList}
 						/>
                     	<RegisterStepperButtons 
 	                    	step={stepIndex}

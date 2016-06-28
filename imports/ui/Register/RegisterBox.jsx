@@ -167,7 +167,6 @@ export class RegisterBox extends React.Component {
     }
 
     render() {
-        const {finished, stepIndex} = this.state;
         return(
             <div className="login-box margin-top-1">
             <NotificationSystem ref="notification" className="notification" />
@@ -178,6 +177,7 @@ export class RegisterBox extends React.Component {
                         handleNewAccount={this._handleNewAccount.bind(this)}
                         handleGroup={this._handleGroup.bind(this)}
                         handleSummary={this._handleSummary.bind(this)}
+                        groupsList={this.props.groups}
                     />
                     <RegisterBtnBar />
             </div>

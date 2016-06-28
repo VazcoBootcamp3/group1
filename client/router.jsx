@@ -6,6 +6,7 @@ import {AppLayout} from '/client/main.jsx';
 import App from '/imports/ui/App.jsx';
 import LoginBox from '/imports/ui/Login/LoginBox.jsx';
 import RegisterBox from '/imports/ui/Register/RegisterBox.jsx';
+import {RegisterContainer} from '/imports/containers/Register/RegisterContainer';
 
 // material-ui
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -48,7 +49,7 @@ FlowRouter.route('/register', {
 	triggersEnter: [redirectIfLoggedIn],
 	action() {
 		mount(AppLayout, {
-			content: (<RegisterBox />)
+			content: (<RegisterContainer />)
 		});
 	}
 });

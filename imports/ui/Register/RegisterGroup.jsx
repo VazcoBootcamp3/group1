@@ -37,18 +37,11 @@ class RegisterGroup extends React.Component {
     }
 
 	render() {
-		const groups = [
-			{'_id': '1234', 'name': 'Grupa1'},
-			{'_id': '2234', 'name': 'Grupa2'},
-			{'_id': '3334', 'name': 'Grupa3'},
-			{'_id': '4434', 'name': 'Grupa4'},
-		];
-
 		return(
 			<div>
 				<Subheader>Choose one from below:</Subheader>
 				<List>
-					{groups.map((value, key) => (
+					{this.props.groupsList.map((value, key) => (
 						<ListItem
 							leftCheckbox={
 							    <Checkbox

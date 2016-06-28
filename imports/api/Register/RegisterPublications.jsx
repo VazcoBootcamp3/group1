@@ -1,7 +1,6 @@
 import {Meteor} from 'meteor/meteor';
-
-import '/imports/api/groups.js';
+import {Groups} from '/imports/api/groups.js';
 
 Meteor.publish('groups-list', () => {
-	return Groups.find({}, {'_id': true, 'name': true});
+	return Groups.find({});
 });
