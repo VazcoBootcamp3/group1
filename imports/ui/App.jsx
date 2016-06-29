@@ -20,15 +20,7 @@ import {Items}      from '/imports/api/items.js';
 
 
 class App extends React.Component {
-    constructor(props) {
-      super(props);
-
-      this.state = {
-        menu: this.props.currentUser ? this._renderMenuForMembers.bind(this) : this._renderMenuForGuests.bind(this),
-      };      
-    }
-
-    _renderMenuForMembers() {
+    render() {
       return(
         <Tabs>
           <Tab icon={<FontIcon className="material-icons">shopping_cart</FontIcon>} 
@@ -48,38 +40,6 @@ class App extends React.Component {
         </Tabs>
       );
     }
-
-    _renderMenuForGuests() {
-      return(
-        <Tabs>
-          <Tab icon={<FontIcon className="material-icons">group</FontIcon>} 
-               label="LOG IN">
-               <Login />
-          </Tab>
-          <Tab icon={<FontIcon className="material-icons">group</FontIcon>} 
-               label="REGISTER">
-          </Tab>
-        </Tabs>
-      );  
-    }    
-
-    render() {
-      return(
-        <div>
-          {this.state.menu()}
-        </div>
-      );
-    }
 }
 
-App.propTypes = {
-  //users: PropTypes.array.isRequired,
-};
-
-export default createContainer(() => {
-  return{
-    currentUser: "michal",
-    //items: Items.find({}, { sort: { date: -1 } }).fetch(),
-    //users: Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch(),
-  };
-}, App);
+export default App;
