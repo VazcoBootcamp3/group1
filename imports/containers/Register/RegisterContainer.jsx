@@ -1,6 +1,7 @@
 import {composeWithTracker} from 'react-komposer';
 import RegisterBox from '/imports/ui/Register/RegisterBox';
 import {Groups} from '/imports/api/groups.js';
+import LoadingComponent from '/imports/ui/LoadingComponent';
 
 const composer = (props, onData) => {
 	if(Meteor.subscribe('groups-list').ready()) {
@@ -9,4 +10,4 @@ const composer = (props, onData) => {
 	}
 };
 
-export const RegisterContainer = composeWithTracker(composer)(RegisterBox);
+export const RegisterContainer = composeWithTracker(composer, LoadingComponent)(RegisterBox);
