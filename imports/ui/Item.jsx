@@ -3,6 +3,14 @@ import {Meteor} from 'meteor/meteor';
 import {createContainer}  from 'meteor/react-meteor-data';
 import {Session} from 'meteor/session'
 
+// Item
+import ItemHeader from '/imports/ui/Item/ItemHeader';
+import ItemProducts from '/imports/ui/Item/ItemProducts';
+import ItemTotalCost from '/imports/ui/Item/ItemTotalCost';
+import ItemYouShouldPay from '/imports/ui/Item/ItemYouShouldPay';
+import ItemAvaibleOptions from '/imports/ui/Item/ItemAvaibleOptions';
+// ---
+
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
@@ -29,35 +37,6 @@ purple500,
 
 export class Item extends Component {
 
-
-	_btnSettle() {
-		if(Meteor.userId() !== this.props.item.creditor && this._checkMyDebt() > 0) {
-			return(
-				<RaisedButton
-			      label="SETTLE"
-			      backgroundColor={green100}
-			      icon={<FontIcon className="material-icons">account_balance_wallet</FontIcon>}
-			      className="item-btn"
-			      onTouchTap={this._settle.bind(this)}
-			    />	
-	    	);
-		}
-	}
-
-	_btnDelete() {
-		if(Meteor.userId() === this.props.item.creditor) {
-			return(
-		       	<RaisedButton
-			      label="DELETE"
-			      backgroundColor={red100}
-			      icon={<FontIcon className="material-icons">delete</FontIcon>}
-			      className="item-btn"
-			      onTouchTap={this._delete.bind(this)}
-			    />		
-		    );
-		}
-	}
-
 	_settle() {
 		Meteor.call('debts.settle', this.props.item._id);
 	}
@@ -73,12 +52,13 @@ export class Item extends Component {
 	}
 
 	_checkMyDebt() {
-		let debt = Debts.findOne(
-			{
-				item: this.props.item._id,
-				debtor: Meteor.userId(),
-			});
-		return debt ? debt.cost : 0;
+		Meteor.call('debts.checkMyDebt', this.props.item._id, (error, data) => {
+			if(data) {
+				console.log('------------');
+				console.log(this.props.item._id);
+				console.log(data);
+			}
+		})
 	}
 
 	_renderShareWith() {
@@ -91,7 +71,7 @@ export class Item extends Component {
 					<Avatar
 						key={key} 
 						className="item-avatar" 
-						src={Session.get('user').profile.avatar}
+						// src={Session.get('user').profile.avatar}
 					/>
 				);
 		});	
@@ -109,7 +89,7 @@ export class Item extends Component {
 						key={key} 
 						className="item-avatar" 
 						tooltip="tooltip"
-						src={Session.get('user').profile.avatar}
+						// src={Session.get('user').profile.avatar}
 					/>
 				);
 		});	
@@ -119,7 +99,7 @@ export class Item extends Component {
 		if(Meteor.userId() === this.props.item.creditor)
 			return 'nothing.';
 		else {
-			return this._checkMyDebt().toFixed(2) + ' zł';
+			this._checkMyDebt();
 		}
 	}
 
@@ -131,34 +111,28 @@ export class Item extends Component {
 			      subtitle={
 			      	<span>has spent {this.props.item.totalCost} zł on {this.props.item.date ? this.props.item.date.toDateString() : ''}</span>
 			      }
-			      avatar={Meteor.user().profile.avatar}
+			      avatar='https://lh5.googleusercontent.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAFw/x6wHNLJmtQ0/s0-c-k-no-ns/photo.jpg'
 			      actAsExpander={true}
 			      showExpandableButton={true}
 			    />
 			    <CardText expandable={true}>
 			    	<div className="column-left">
-			    		<div className="item-box">
-				    		<Subheader>Products:</Subheader>
-					    	<p className="item-t">{this.props.item.products}</p>
-				    	</div>
-
-			    		<div className="item-box">
-				    		<Subheader>Total cost:</Subheader>
-					    	<p className="item-t item-cost item-total">{this.props.item.totalCost} zł</p>
-				    	</div>
+			    		<ItemProducts products={this.props.item.products} />
+			    		<ItemTotalCost totalCost={this.props.item.totalCost} />
 				    </div>
 			    		
 			    	<div className="column-right">
-			    		<div className="item-box">
-			    			<Subheader>You should pay:</Subheader>
-					    	<p className="item-t item-cost item-your-cost">{this._renderShouldPay()}</p>
-				    	</div>
+			    		<ItemYouShouldPay 
+			    			creditor={this.props.item.creditor}
+				    		cost={this._renderShouldPay()} 
+				    	/>
 
-			    		<div className="item-box">
-			    			<Subheader>Avaible options:</Subheader>
-			          		{this._btnSettle()}
-			          		{this._btnDelete()}
-			          	</div>
+			    		<ItemAvaibleOptions 
+			    			creditor={this.props.item.creditor}
+			    			debt='1'
+			    			handleSettle={this._settle}
+			    			handleDelete={this._delete}
+			    		/>
 			    	</div>
 
 			    	<div className="column-center">
