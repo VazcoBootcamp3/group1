@@ -11,22 +11,12 @@ const ReportItem = (props) => {
                         </p>
                     </div>
                     <div className="card-action">
-                        <a href="#!" onClick={() => { settleDebt(props.info.id) }}>Ureguluj</a>
+                        <a href="#!" onClick={() => { props.functions.settleDebt(props.info.id) }}>Ureguluj</a>
                     </div>
                 </div>
             </div>
     );
 };
-
-function settleDebt (id) {
-    Meteor.call( 'report.settle', {secondUser: id}, (err, res) => {
-        if(err) {
-            Materialize.toast(err.reason, 4000);
-        } else {
-            Materialize.toast(res, 4000);
-        }
-    });
-}
 
 const Report = (props) => {
     if(props.shoppings.length === 0) {
@@ -42,7 +32,7 @@ const Report = (props) => {
         <div className="row">
             <h3>Podsumowanie</h3>
             {(props.shoppings)
-                .map((shopping, k) => <ReportItem key={k} info={shopping} /> )}
+                .map((shopping, k) => <ReportItem key={k} info={shopping} functions={props.functions} /> )}
         </div>
     )
 };
