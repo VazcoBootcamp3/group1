@@ -39,7 +39,3 @@ export default class NewItemButton extends React.Component {
         );
     }
 }
-
-NewItemButton.propTypes = {
-    users: PropTypes.array.isRequired,
-}

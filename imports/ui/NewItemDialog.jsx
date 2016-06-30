@@ -224,8 +224,3 @@ export default class NewItem extends React.Component {
         );
     }
 }
-
-NewItem.propTypes = {
-    open: PropTypes.bool.isRequired,
-    users: PropTypes.array.isRequired,
-}
