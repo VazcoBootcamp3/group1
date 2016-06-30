@@ -8,15 +8,11 @@ import FontIcon     from 'material-ui/FontIcon';
 import {Tabs, Tab}  from 'material-ui/Tabs';
 
 // components
-import ShoppingList from '/imports/ui/ShoppingList';
 import Report       from '/imports/ui/Report';
-import Item         from '/imports/ui/Item';
 import LoginBox        from '/imports/ui/Login/LoginBox';
 
-// mongo
-import {Items}      from '/imports/api/items.js';
-
-
+// containers
+import {ItemListContainer} from '/imports/containers/Item/ItemListContainer';
 
 
 class App extends React.Component {
@@ -25,7 +21,7 @@ class App extends React.Component {
         <Tabs>
           <Tab icon={<FontIcon className="material-icons">shopping_cart</FontIcon>} 
                label="SHOPPING LIST">
-               <ShoppingList />
+               <ItemListContainer />
           </Tab>
           <Tab icon={<FontIcon className="material-icons">equalizer</FontIcon>} 
                label="REPORT">
