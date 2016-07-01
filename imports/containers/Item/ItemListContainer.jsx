@@ -9,8 +9,8 @@ const composer = (props, onData) => {
 	if(Meteor.subscribe('items').ready() &&
 	   Meteor.subscribe('users').ready()) 
 	{
-		const items = Items.find({});
-		const users = Meteor.users.find({});
+		const items = Items.find({}).fetch();
+		const users = Meteor.users.find({}).fetch();
 
 		onData(null, {items, users});
 	}
