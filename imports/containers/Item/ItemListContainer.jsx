@@ -10,7 +10,7 @@ const composer = (props, onData) => {
 	   Meteor.subscribe('users').ready()) 
 	{
 		const items = Items.find({}).fetch();
-		const users = Meteor.users.find({}).fetch();
+		const users = Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch();
 
 		onData(null, {items, users});
 	}
