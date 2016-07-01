@@ -6,9 +6,13 @@ import {Items} from '/imports/api/items.js';
 
 
 const composer = (props, onData) => {
-	if(Meteor.subscribe('items').ready()) {
+	if(Meteor.subscribe('items').ready() &&
+	   Meteor.subscribe('users').ready()) 
+	{
 		const items = Items.find({});
-		onData(null, {items});
+		const users = Meteor.users.find({});
+
+		onData(null, {items, users});
 	}
 };
 

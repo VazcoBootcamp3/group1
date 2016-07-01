@@ -33,7 +33,10 @@ export default class NewItemButton extends React.Component {
                     <ContentAdd />
                 </FloatingActionButton>
 
-                <NewItemDialog open={this.state.open} users={this.props.users} />
+                <NewItemDialog 
+                    open={this.state.open}
+                    users={this.props.users}
+                />
                 
             </div>
         );

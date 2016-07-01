@@ -9,7 +9,7 @@ const ItemList = (props) =>
         {props.items.map((value, key) => {
             return <ItemContainer key={key} item={value} />;
         })}
-        <NewItemButton />
+        <NewItemButton users={props.users} />
     </div>;
 
 export default ItemList;
