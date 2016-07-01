@@ -49,7 +49,6 @@ class DialogShareWith extends React.Component {
     }
 
 	render() {
-		console.log(this.props.users);
 		return(
 			<div>
                 <SelectField
@@ -62,8 +61,13 @@ class DialogShareWith extends React.Component {
                         <MenuItem 
 	                        key={key}
 							value={value._id}
-							primaryText={value.username}
-                        />
+                        >
+	                        <ListItem
+	                            key={key}
+	                            primaryText={value.username}
+	                            leftAvatar={<Avatar src={value.profile.avatar} />}
+	                        />
+                        </MenuItem>
                     ))}
                 </SelectField>
 
