@@ -13,7 +13,7 @@ export const leaveGroup = (id) => {
     }
 };
 
-export const onSubmitCreateGroup = (e) => {
+export const createOrJoinGroup = (e) => {
     e.preventDefault();
 
     const form = e.target;
