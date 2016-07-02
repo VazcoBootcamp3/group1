@@ -3,7 +3,6 @@ import { Random } from 'meteor/random';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { assert, expect } from 'meteor/practicalmeteor:chai';
-import { sinon } from 'meteor/practicalmeteor:sinon';
 import Report from '/imports/components/Report';
 import { ReportItem } from '/imports/components/ReportItem';
 
