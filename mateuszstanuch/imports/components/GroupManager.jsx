@@ -1,19 +1,6 @@
 import React from 'react/react';
-import GroupJoin from './GroupJoin';
-
-const GroupItem = (props) => {
-    return (
-        <li className="collection-item">
-            <div>
-                {props.groupname}
-                <a href="#!" className="secondary-content"
-                   onClick={() => { props.functions.leaveGroup(props.groupid) }}>
-                    <i className="material-icons">clear</i>
-                </a>
-            </div>
-        </li>
-    );
-};
+import { GroupJoin } from './GroupJoin';
+import { GroupItem } from './GroupItem';
 
 const GroupManager = (props) => {
     return (

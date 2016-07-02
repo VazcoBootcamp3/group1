@@ -1,6 +1,6 @@
 import React from 'react/react';
 
-const GroupJoin = (props) => {
+export const GroupJoin = (props) => {
     return (
         <div className="row">
             <h4>Utwórz lub dołącz do grupy</h4>
@@ -13,5 +13,3 @@ const GroupJoin = (props) => {
         </div>
     );
 };
-
-export default GroupJoin;
