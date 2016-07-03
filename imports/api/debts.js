@@ -40,6 +40,20 @@ Meteor.methods({
 			{item: itemId, debtor: this.userId},
 			{$set: {cost: 0}},
 		);
+	},
+
+	'debts.shouldPay'(userId) {
+		check(userId, String);
+
+		return Debts.aggregate([
+						{$match: {debtor: userId}},
+						{$group: {
+									_id: '$creditor',
+									'debt': {'$sum': '$cost'}
+								 }
+						}
+		]).fetch();
+
 	}
 });
 
