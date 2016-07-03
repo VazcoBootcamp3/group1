@@ -19,14 +19,12 @@ export const createOrJoinGroup = (e) => {
     const form = e.target;
 
     let groupName = form.querySelector('[name=groupName]').value;
-    let userId = Meteor.userId();
 
     if(groupName == '') {
         Materialize.toast("Uzupełnij nazwę grupy", 4000);
     } else {
         Meteor.call('groups.createOrJoin', {
             groupName: groupName,
-            userId: userId
         }, (err, res) => {
             if (err) {
                 Materialize.toast(err.reason, 4000);

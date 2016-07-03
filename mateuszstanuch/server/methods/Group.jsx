@@ -2,11 +2,12 @@
 import GroupList from '/imports/groups';
 
 Meteor.methods({
-    'groups.createOrJoin'({groupName, userId}) {
-        if(groupName === '' || userId === '') {
+    'groups.createOrJoin'({groupName}) {
+        if(!groupName) {
             throw new Meteor.Error('groups.updateText.unauthorized',
-                'Nie jesteś zalogowany lub nie wypełniłeś wszystkich pól');
+                'Podaj nazwę grupy!');
         }
+        const userId = Meteor.userId();
 
         const group = GroupList.findOne({ name: groupName });
 
