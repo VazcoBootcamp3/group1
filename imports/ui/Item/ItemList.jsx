@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 
 import {ItemContainer} from '/imports/containers/Item/ItemContainer';
-import NewItemButton from '/imports/ui/NewItemButton';
+import ItemNewItemButton from '/imports/ui/Item/ItemNewItemButton';
 
 
 const ItemList = (props) =>
@@ -9,7 +9,7 @@ const ItemList = (props) =>
         {props.items.map((value, key) => {
             return <ItemContainer key={key} item={value} />;
         })}
-        <NewItemButton users={props.users} />
+        <ItemNewItemButton users={props.users} />
     </div>;
 
 export default ItemList;

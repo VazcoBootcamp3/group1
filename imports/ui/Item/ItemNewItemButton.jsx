@@ -5,7 +5,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import DialogBox from '/imports/ui/Dialog/DialogBox';
 
 
-export default class NewItemButton extends React.Component {
+class ItemNewItemButton extends React.Component {
     constructor(props) {
         super(props);
 
@@ -36,9 +36,11 @@ export default class NewItemButton extends React.Component {
                     open={this.state.open}
                     handleClose={this._closeDialog.bind(this)}
                     users={this.props.users}
-                    ref="NewItemDialog"
+                    ref="DialogBox"
                 />
             </div>
         );
     }
 }
+
+export default ItemNewItemButton;
