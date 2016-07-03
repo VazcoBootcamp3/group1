@@ -1,11 +1,7 @@
 import React from 'react';
-import {Meteor} from 'meteor/meteor';
 
 // material-ui
 import Dialog from 'material-ui/Dialog';
-
-import {Items} from '/imports/api/items';
-import {Debts} from '/imports/api/debts';
 
 import DialogForm from '/imports/ui/Dialog/DialogForm';
 import DialogButtons from '/imports/ui/Dialog/DialogButtons';
@@ -13,7 +9,7 @@ import DialogButtons from '/imports/ui/Dialog/DialogButtons';
 import {handleAddNew} from '/imports/api/Dialog/handleAddNew';
 
 
-export default class NewItem extends React.Component {
+class DialogBox extends React.Component {
     render() {
         return(
             <div>
@@ -36,3 +32,5 @@ export default class NewItem extends React.Component {
         );
     }
 }
+
+export default DialogBox;

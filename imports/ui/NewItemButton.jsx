@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-import NewItemDialog from '/imports/ui/NewItemDialog';
+import DialogBox from '/imports/ui/Dialog/DialogBox';
 
 
 export default class NewItemButton extends React.Component {
@@ -32,7 +32,7 @@ export default class NewItemButton extends React.Component {
                     <ContentAdd />
                 </FloatingActionButton>
 
-                <NewItemDialog 
+                <DialogBox 
                     open={this.state.open}
                     handleClose={this._closeDialog.bind(this)}
                     users={this.props.users}
