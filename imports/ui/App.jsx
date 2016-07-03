@@ -8,7 +8,7 @@ import FontIcon     from 'material-ui/FontIcon';
 import {Tabs, Tab}  from 'material-ui/Tabs';
 
 // components
-import Report       from '/imports/ui/Report';
+import ReportBox       from '/imports/ui/Report/ReportBox';
 import LoginBox        from '/imports/ui/Login/LoginBox';
 
 // containers
@@ -25,7 +25,7 @@ class App extends React.Component {
           </Tab>
           <Tab icon={<FontIcon className="material-icons">equalizer</FontIcon>} 
                label="REPORT">
-               <Report />
+               <ReportBox />
           </Tab>
           <Tab icon={<FontIcon className="material-icons">chat</FontIcon>} 
                label="CHAT">
