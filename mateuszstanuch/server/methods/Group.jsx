@@ -25,6 +25,8 @@ Meteor.methods({
             // Adding new group to profile['group']
             let userGroups = Meteor.users.findOne({_id: userId});
             userGroups = userGroups.services.groups;
+            if(!userGroups) userGroups = [];
+
             userGroups.push(groupId);
 
             Meteor.users.update({
@@ -38,6 +40,7 @@ Meteor.methods({
             // Adding new group to profile['group']
             let userGroups = Meteor.users.findOne({_id: userId});
             userGroups = userGroups.services.groups;
+            if(!userGroups) userGroups = [];
             userGroups.push(group._id);
 
             // Prevent double join
@@ -55,6 +58,7 @@ Meteor.methods({
 
             // adding new user
             let groupUsers = group.users;
+            if(!groupUsers) groupUsers = [];
             groupUsers.push(userId);
 
             // prevent double join
