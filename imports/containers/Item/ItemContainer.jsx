@@ -2,7 +2,7 @@ import {composeWithTracker} from 'react-komposer';
 import ItemBox from '/imports/ui/Item/ItemBox';
 import LoadingComponent from '/imports/ui/LoadingComponent';
 
-import {Debts} from '/imports/api/debts.js';
+import {Debts} from '/imports/api/Collections/debts.js';
 
 
 // props

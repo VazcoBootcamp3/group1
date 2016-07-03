@@ -12,8 +12,6 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 
-import '/imports/api/debts.js';
-
 
 
 export default class extends React.Component {

@@ -1,6 +1,6 @@
 import {composeWithTracker} from 'react-komposer';
 import RegisterBox from '/imports/ui/Register/RegisterBox';
-import {Groups} from '/imports/api/groups.js';
+import {Groups} from '/imports/api/Collections/groups.js';
 import LoadingComponent from '/imports/ui/LoadingComponent';
 
 const composer = (props, onData) => {

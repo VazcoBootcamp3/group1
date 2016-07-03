@@ -1,6 +1,6 @@
 import {Meteor} from 'meteor/meteor';
-import {Items} from '/imports/api/items.js';
-import {Debts} from '/imports/api/debts.js';
+import {Items} from '/imports/api/Collections/items.js';
+import {Debts} from '/imports/api/Collections/debts.js';
 
 Meteor.publish('users', () => {
 	return Meteor.users.find({}, {fields: {username: true, profile: true}});

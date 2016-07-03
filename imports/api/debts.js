@@ -1,8 +1,7 @@
 import {Meteor} from 'meteor/meteor';
-import {Mongo} from 'meteor/mongo';
 import {check} from 'meteor/check';
 
-export const Debts = new Mongo.Collection('debts');
+import {Debts} from '/imports/api/Collections/debts.js';
 
 Meteor.methods({
 	'debts.checkMyDebt'(itemId) {
@@ -52,7 +51,7 @@ Meteor.methods({
 									'debt': {'$sum': '$cost'}
 								 }
 						}
-		]).fetch();
+		]);
 
 	}
 });

@@ -2,7 +2,7 @@ import {composeWithTracker} from 'react-komposer';
 import LoadingComponent from '/imports/ui/LoadingComponent';
 
 import ItemList from '/imports/ui/Item/ItemList';
-import {Items} from '/imports/api/items.js';
+import {Items} from '/imports/api/Collections/items.js';
 
 
 const composer = (props, onData) => {

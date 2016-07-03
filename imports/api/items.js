@@ -1,11 +1,8 @@
 import {Meteor} from 'meteor/meteor';
-import {Mongo} from 'meteor/mongo';
 import {check} from 'meteor/check';
 
-import {Debts}      from '/imports/api/debts.js';
-
-
-export const Items = new Mongo.Collection('items');
+import {Debts}      from '/imports/api/Collections/debts.js';
+import {Items}		from '/imports/api/Collections/items.js';
 
 Meteor.methods({
 	'items.delete'(itemId) {
