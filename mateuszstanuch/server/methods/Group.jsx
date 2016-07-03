@@ -3,10 +3,12 @@ import GroupList from '/imports/groups';
 
 Meteor.methods({
     'groups.createOrJoin'({groupName}) {
-        if(!groupName) {
+        if(!groupName || !groupName.trim()) {
             throw new Meteor.Error('groups.updateText.unauthorized',
                 'Podaj nazwę grupy!');
         }
+        groupName = groupName.trim();
+
         const userId = Meteor.userId();
 
         const group = GroupList.findOne({ name: groupName });
