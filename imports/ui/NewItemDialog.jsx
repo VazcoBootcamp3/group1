@@ -15,13 +15,12 @@ import {handleAddNew} from '/imports/api/Dialog/handleAddNew';
 
 export default class NewItem extends React.Component {
     render() {
-            console.log(this.props);
         return(
             <div>
                 <Dialog
                     title="Add new item"
                     actions={<DialogButtons 
-                                handleDone={() => {handleAddNew(this.refs)}}
+                                handleDone={() => {handleAddNew(this.refs.DialogForm.refs)}}
                                 handleClose={this.props.handleClose}
                             />}
                     open={this.props.open}

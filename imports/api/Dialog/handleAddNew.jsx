@@ -9,7 +9,7 @@ export const handleAddNew = (props) => {
 	        position: 'tr',
 	    });
 
-        const {productsInput, dateInput, totalCostInput, DialogShareWith} = props.DialogForm.refs;
+        const {productsInput, dateInput, totalCostInput, DialogShareWith} = props;
         const {shareWith} = DialogShareWith.state;
 
         if(!productsInput.getValue()) {
