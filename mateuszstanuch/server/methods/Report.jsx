@@ -4,11 +4,13 @@ Meteor.methods({
     'report.settle'({secondUser}) {
         let currentUserId = Meteor.userId();
         if( currentUserId ) {
-            let secondUserId = Meteor.users.findOne(secondUser)._id;
+            let secondUserId = Meteor.users.findOne(secondUser);
             if( !secondUserId ) {
                 throw new Meteor.Error('report.settle.userNotFound',
                     'Wystąpił błąd - drugi użytkownik nie istnieje');
             }
+
+            secondUserId = secondUserId._id;
 
             ShoppingList.update({ $and:
             [
