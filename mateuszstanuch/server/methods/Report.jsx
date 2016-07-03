@@ -2,6 +2,7 @@ import ShoppingList from '/imports/shoppings';
 
 Meteor.methods({
     'report.settle'({secondUser}) {
+        // @secondUser - second user id provided by client, verified later
         let currentUserId = Meteor.userId();
         if( currentUserId ) {
             let secondUserId = Meteor.users.findOne(secondUser);
