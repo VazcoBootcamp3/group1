@@ -105,6 +105,66 @@ if( Meteor.isServer ) {
                 assert.equal(result.price, cost_per_member);
                 assert.equal(result.products, products);
             });
+            
+            it('should throw error if buyer is the same user as indebted', () => {
+                const buyer = 'Jasio';
+
+                const shopping = {
+                    buyer: buyer,
+                    indebted: buyer,
+                    products: 'products',
+                    price: 123,
+                };
+
+                const newShopping = Meteor.server.method_handlers['checkout.create'];
+                assert.throws(() => {
+                    newShopping.apply(this, [ shopping ]);
+                }, Error, 'validation-error');
+            });
+
+            it('should throw error if price is not positive', () => {
+                const buyer = 'Jasio';
+                const indebted = 'Zbysio';
+
+                const shoppings = [{
+                    buyer: buyer,
+                    indebted: indebted,
+                    products: 'products',
+                    price: 0,
+                }, {
+                    buyer: buyer,
+                    indebted: indebted,
+                    products: 'products',
+                    price: -43.43,
+                }];
+
+                const newShopping = Meteor.server.method_handlers['checkout.create'];
+                for(const shopping in shoppings) {
+                    assert.throws(() => {
+                        newShopping.apply(this, [shopping]);
+                    }, Error, 'validation-error');
+                }
+            });
+
+            it('should throw error if buyer does not exits', () => {
+                const newShopping = Meteor.server.method_handlers['checkout.create'];
+
+                const buyer = 'Staszek';
+                const indebted = Meteor.users.findOne({username: user2_name});
+                const price = 123.45;
+                const products = 'Products...'
+
+                const shopping = {
+                    buyer: buyer,
+                    indebted: indebted.username,
+                    products: products,
+                    price: price,
+                };
+
+                assert.throws(() => {
+                    newShopping.apply(this, [shopping]);
+                }, Error, 'checkout.create.buyerNotExist');
+            })
         });
     });
 }
