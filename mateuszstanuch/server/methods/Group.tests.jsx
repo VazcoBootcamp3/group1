@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
 import { assert, expect } from 'meteor/practicalmeteor:chai';
 import { sinon } from 'meteor/practicalmeteor:sinon';
 
@@ -91,6 +92,27 @@ if( Meteor.isServer ) {
 
                 Accounts.createUser({username: u1_name});
                 Accounts.createUser({username: u2_name});
+            });
+
+            it('should throw error if group does not exist', () => {
+                const stub = sinon.stub(Meteor, 'userId', () => { return currentUser._id});
+                let currentUser = Meteor.users.findOne({username: u1_name});
+                const groupId = Random.id();
+
+                // leave group
+                const leaveGroup = Meteor.server.method_handlers['groups.leaveGroup'];
+                assert.throws( () => {
+                        leaveGroup.apply(this, [{groupId: groupId}]);
+                }, Error, 'groups.leaveGroup');
+
+                const invalidIds = [ null, 123, 12.54 ];
+                for(const id of invalidIds) {
+                    assert.throws( () => {
+                        leaveGroup.apply(this, [{groupId: id}]);
+                    }, Error, 'validation-error');
+                }
+
+                stub.restore();
             });
 
             it('should remove group from user.services.groups', () => {
