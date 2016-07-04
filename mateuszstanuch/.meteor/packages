@@ -26,3 +26,5 @@ accounts-password
 aldeed:simple-schema
 universe:collection
 practicalmeteor:mocha
+mdg:validated-method
+mdg:validation-error

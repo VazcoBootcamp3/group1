@@ -1,19 +1,36 @@
 import ShoppingList from '/imports/shoppings';
 
-Meteor.methods({
-    'report.settle'({secondUser}) {
-        // @secondUser - second user id provided by client, verified later
+
+export const reportSettleDebt = new ValidatedMethod({
+    name: 'report.settle',
+
+    validate({ secondUserId }) {
+        const errors = [];
+        const secondUser = Meteor.users.findOne(secondUserId);
+
+        if(!secondUser) {
+            errors.push({
+                name: 'secondUserId',
+                type: 'not found',
+                details: {
+                    value: secondUserId
+                }
+            });
+        }
+
+        if (errors.length) {
+            throw new ValidationError(errors);
+        }
+    },
+
+    run({ secondUserId }) {
         let currentUserId = Meteor.userId();
-        if( currentUserId ) {
-            let secondUserId = Meteor.users.findOne(secondUser);
-            if( !secondUserId ) {
-                throw new Meteor.Error('report.settle.userNotFound',
-                    'Wystąpił błąd - drugi użytkownik nie istnieje');
-            }
+        if( !currentUserId ) {
+            throw new Meteor.Error('report.settle.notLoggedIn',
+                'Nie jestes zalogowany!');
+        }
 
-            secondUserId = secondUserId._id;
-
-            ShoppingList.update({ $and:
+        ShoppingList.update({ $and:
             [
                 {
                     $or: [
@@ -28,19 +45,14 @@ Meteor.methods({
                     ]
                 }
             ]
-            }, {
-                $set: {
-                    paid: true
-                }
-            }, {
-                multi: true
-            });
+        }, {
+            $set: {
+                paid: true
+            }
+        }, {
+            multi: true
+        });
 
-            return "Uregulowano należności";
-
-        } else {
-            throw new Meteor.Error('report.settle.notLoggedIn',
-                'Nie jestes zalogowany!');
-        }
+        return "Uregulowano należności";
     }
 });

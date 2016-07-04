@@ -24,7 +24,8 @@ if( Meteor.isServer ) {
         describe('methods', () => {
             it('should throw error if user is not logged in', () => {
                 const settleDebt = Meteor.server.method_handlers['report.settle'];
-                const secondUsername = { secondUser: 'Joe Doe', };
+                const secondUserId = Meteor.users.findOne({username: u2_name})._id;
+                const secondUsername = { secondUserId: secondUserId, };
 
                 const stub = sinon.stub(Meteor, 'userId').returns(null);
                 assert.throws(() => {
@@ -37,12 +38,12 @@ if( Meteor.isServer ) {
                 const settleDebt = Meteor.server.method_handlers['report.settle'];
 
                 const userId = Random.id();
-                const secondUsername = { secondUser: null, };
+                const secondUsername = { secondUserId: null, };
 
                 const stub = sinon.stub(Meteor, 'userId').returns(userId);
                 assert.throws(() => {
                     settleDebt.apply(this, [ secondUsername ])
-                }, Error, 'report.settle.userNotFound');
+                }, Error, 'validation-error');
                 stub.restore();
             });
 
@@ -65,7 +66,7 @@ if( Meteor.isServer ) {
                 const settleDebt = Meteor.server.method_handlers['report.settle'];
 
                 const firstUserId = user1._id;
-                const secondUsername = { secondUser: user2._id, };
+                const secondUsername = { secondUserId: user2._id, };
 
                 const stub = sinon.stub(Meteor, 'userId').returns(firstUserId);
 
@@ -115,7 +116,7 @@ if( Meteor.isServer ) {
                 const settleDebt = Meteor.server.method_handlers['report.settle'];
 
                 const firstUserId = user1._id;
-                const secondUsername = { secondUser: user2._id, };
+                const secondUsername = { secondUserId: user2._id, };
 
                 const stub = sinon.stub(Meteor, 'userId').returns(firstUserId);
 

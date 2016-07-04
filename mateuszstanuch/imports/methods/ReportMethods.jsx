@@ -52,7 +52,7 @@ export const getSummary = (shoppings) => {
 };
 
 export const settleDebt = (id) => {
-    Meteor.call( 'report.settle', {secondUser: id}, (err, res) => {
+    Meteor.call( 'report.settle', {secondUserId: id}, (err, res) => {
         if(err) {
             Materialize.toast(err.reason, 4000);
         } else {
