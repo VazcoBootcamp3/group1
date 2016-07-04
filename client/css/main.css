@@ -179,6 +179,22 @@ body {
   height: 600px !important;
 }
 
+.report-sn-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+  font-size: 13px;
+
+  margin: 7px 0 5px 7px;
+}
+
+.report-sn-text strong {
+  font-weight: 400;
+}
+
+.report-nested {
+  padding: 0 0 0 35px;
+}
+
 .margin-top-1 { margin-top: 1%; }
 .margin-top-3 { margin-top: 3%; }
 
