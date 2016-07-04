@@ -52,7 +52,19 @@ Meteor.methods({
 								 }
 						}
 		]);
+	},
 
-	}
+	'debts.shouldGain'(userId) {
+		check(userId, String);
+
+		return Debts.aggregate([
+						{$match: {creditor: userId}},
+						{$group: {
+									_id: '$debtor',
+									'debt': {'$sum': '$cost'}
+								 }
+						}
+		]);
+	},
 });
 
