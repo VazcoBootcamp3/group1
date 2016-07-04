@@ -22,9 +22,16 @@ if( Meteor.isServer ) {
 
             it('should throw error if invalid group name', () => {
                 const joinGroup = Meteor.server.method_handlers['groups.createOrJoin'];
-                const invalidNames = [null, '', ' ', '  '];
+                const invalidNames = [null, 123, 43.43];
 
                 for(const name of invalidNames) {
+                    assert.throws(() => {
+                        joinGroup.apply(this, [{groupName: name}]);
+                    }, Error, 'validation-error');
+                }
+
+                const emptyNames = ['', ' ', '                '];
+                for(const name of emptyNames) {
                     assert.throws(() => {
                         joinGroup.apply(this, [{groupName: name}]);
                     }, Error, 'groups.updateText.unauthorized');

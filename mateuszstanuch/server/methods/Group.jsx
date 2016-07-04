@@ -1,11 +1,17 @@
-
 import GroupList from '/imports/groups';
 
-Meteor.methods({
-    'groups.createOrJoin'({groupName}) {
+
+export const groupCreateOrJoin = new ValidatedMethod({
+    name: 'groups.createOrJoin',
+
+    validate: new SimpleSchema({
+        groupName: { type: String }
+    }).validator(),
+
+    run({groupName}) {
         if(!groupName || !groupName.trim()) {
             throw new Meteor.Error('groups.updateText.unauthorized',
-                'Podaj nazwę grupy!');
+                'Podaj poprawną nazwę grupy!');
         }
         groupName = groupName.trim();
 
@@ -16,7 +22,7 @@ Meteor.methods({
         if(!group) {
             // Creating new group
             let users = [ userId ];
-            
+
             let groupId = GroupList.insert({
                 name: groupName,
                 users: users,
@@ -30,7 +36,7 @@ Meteor.methods({
             userGroups.push(groupId);
 
             Meteor.users.update({
-                    _id: userId
+                _id: userId
             }, {
                 $set: {
                     'services.groups': userGroups
@@ -75,11 +81,24 @@ Meteor.methods({
             });
         }
         return "Pomyślnie wykonano operacje :)";
-    },
+    }
+});
 
-    'groups.leaveGroup'({groupId}) {
+export const groupLeave = new ValidatedMethod({
+    name: 'groups.leaveGroup',
+
+    validate: new SimpleSchema({
+        groupId: { type: String }
+    }).validator(),
+
+    run({ groupId }) {
         const userId = Meteor.userId();
         const group = GroupList.findOne(groupId);
+
+        if( !group ) {
+            throw new Meteor.Error('groups.leaveGroup',
+                'Taka grupa nie istnieje');
+        }
 
         // remove user from group
         group.update( {
@@ -94,7 +113,6 @@ Meteor.methods({
             group.remove();
         }
 
-        // remove group from user services
         Meteor.users.update({
             _id: userId,
         }, {
@@ -104,5 +122,5 @@ Meteor.methods({
         });
 
         return "Pomyślnie usunięto z grupy";
-    },
+    }
 });
