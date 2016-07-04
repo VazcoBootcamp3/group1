@@ -1,15 +1,41 @@
 import ShoppingList from '/imports/shoppings';
 import GroupList from '/imports/groups';
 
-Meteor.methods({
-    'checkout.create'({buyer, indebted, products, price}) {
+export const checkoutCreate = new ValidatedMethod({
+    name: 'checkout.create',
+
+    validate({buyer, indebted, price}){
+        const errors = [];
 
         if( buyer === indebted ) {
-            throw new Meteor.Error('checkout.create.buyerIsIndebted',
-                'Kupujący powinien nie być dłużnikiem');
+            errors.push({
+                name: 'buyerIsIndebted',
+                type: 'buyer is the same user as indebted',
+                details: {
+                    value: buyer + ' === ' + indebted,
+                }
+            });
         }
 
+        // check if price is higher than 0
+        if(price <= 0) {
+            errors.push({
+                name: 'price.lowerOrEqualZero',
+                type: 'Amount is lower or equal 0',
+                details: {
+                    value: price,
+                }
+            });
+        }
+
+        if (errors.length) {
+            throw new ValidationError(errors);
+        }
+    },
+
+    run({buyer, indebted, products, price}) {
         // Looking for buyer in database
+
         let buyerId = Meteor.users.findOne({username: buyer});
 
         if(!buyerId) {
@@ -20,7 +46,6 @@ Meteor.methods({
 
         let buyerName = buyerId.username;
         buyerId = buyerId._id;
-
 
         // Get Ids of users in group or single user
 
@@ -62,12 +87,6 @@ Meteor.methods({
         if(indebtedIds.indexOf(buyerId) === -1) {
             throw new Meteor.Error('checkout.create.notInGroup',
                 'Nie należysz do tej grupy.');
-        }
-
-        // check if price is higher than 0
-        if(price <= 0) {
-            throw new Meteor.Error('checkout.create.priceIsLowerOrEqualZero',
-                'Błędna kwota');
         }
 
         for(const userId of indebtedIds) {
