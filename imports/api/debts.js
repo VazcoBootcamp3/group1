@@ -41,30 +41,46 @@ Meteor.methods({
 		);
 	},
 
-	'debts.shouldPay'(userId) {
+
+	'debts.balance'(userId) {
 		check(userId, String);
 
-		return Debts.aggregate([
-						{$match: {debtor: userId}},
-						{$group: {
-									_id: '$creditor',
-									'debt': {'$sum': '$cost'}
-								 }
-						}
-		]);
-	},
+		let shouldPay = Debts.aggregate([
+							{$match: {debtor: userId}},
+							{$group: {
+										_id: '$creditor',
+										'debt': {'$sum': '$cost'}
+									 }
+						}]);
 
-	'debts.shouldGain'(userId) {
-		check(userId, String);
+		let shouldGain = Debts.aggregate([
+							{$match: {creditor: userId}},
+							{$group: {
+										_id: '$debtor',
+										'debt': {'$sum': '$cost'}
+									 }
+							}
+						]);
 
-		return Debts.aggregate([
-						{$match: {creditor: userId}},
-						{$group: {
-									_id: '$debtor',
-									'debt': {'$sum': '$cost'}
-								 }
-						}
-		]);
-	},
+		let a = true;
+		shouldPay.map((valueB, keyB) => {
+			shouldGain.map(valueA => {
+		  	if(valueA._id === valueB._id) {
+		    	valueA.debt -= valueB.debt;
+				delete shouldPay[keyB];
+				a = false;
+			}
+			});
+			
+			if(a) {
+				valueB.debt = -valueB.debt;
+				shouldGain.push(valueB);
+			}
+
+			a = true;
+		});
+
+		return shouldGain.filter(n => true);
+	}
 });
 
